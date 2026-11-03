@@ -8,17 +8,9 @@ import {
   charBlurInitialVars,
   charBlurAnimateVars,
 } from "@/components/animations/CharBlurDissolveHeading";
+import Button from "@/components/common/Button";
 import type { MapSectionData } from "@/types/home";
 
-const DEFAULT_MAP_DATA: MapSectionData = {
-  headingLine1: "You Won't",
-  headingLine2Part1: "Find",
-  headingLine2Highlight: "Growth",
-  headingLine3: "on a Map",
-  description:
-    "WE COMBINE STRATEGY AND BRANDING TO HELP REAL ESTATE BUSINESSES GROW.",
-  buttonText: "EXPLORE OUR WORK",
-};
 
 // ───────────── Desktop frames ─────────────
 const TOTAL_FRAMES = 55;
@@ -62,11 +54,17 @@ const MAP_LOCATIONS: MapLocation[] = [
 ];
 
 interface MapSectionProps {
-  data?: MapSectionData;
+  data: MapSectionData;
 }
 
 export default function MapSection({ data }: MapSectionProps) {
-  const content = { ...DEFAULT_MAP_DATA, ...data };
+  const {
+    headingLine1,
+    headingLine2Part1,
+    headingLine2Highlight,
+    headingLine3,
+    description,
+  } = data;
 
   const sectionRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -460,26 +458,26 @@ export default function MapSection({ data }: MapSectionProps) {
         >
           <h2 className="font-voyage text-[36px] sm:text-[46px] md:text-[54px] lg:text-[58px] xl:text-[72px] 2xl:text-[88px] text-[#121212] leading-[1.08] tracking-tight will-change-transform [perspective:1200px] [transform-style:preserve-3d]">
             <span className="block">
-              {renderCharSpan(content.headingLine1 ?? "You Won't", "map-l1")}
+              {renderCharSpan(headingLine1, "map-l1")}
             </span>
 
             <span className="block whitespace-nowrap pl-6 sm:pl-10 md:pl-12 lg:pl-12 xl:pl-16 2xl:pl-20 mt-0.5 sm:mt-1">
               <span className="inline-block mr-2 sm:mr-3">
-                {renderCharSpan(content.headingLine2Part1 ?? "Find", "map-l2")}
+                {renderCharSpan(headingLine2Part1, "map-l2")}
               </span>
               <span
                 ref={highlightBadgeRef}
                 className="inline-block bg-[#AEE2F2] px-2 sm:px-3 py-0.5 sm:py-1 rounded-[4px] sm:rounded-[6px] text-[#121212] shadow-[0_2px_12px_rgba(174,226,242,0.35)] will-change-[transform,opacity,filter] opacity-0"
               >
                 {renderCharSpan(
-                  content.headingLine2Highlight ?? "Growth",
+                  headingLine2Highlight,
                   "map-l2-hl"
                 )}
               </span>
             </span>
 
             <span className="block mt-0.5 sm:mt-1">
-              {renderCharSpan(content.headingLine3 ?? "on a Map", "map-l3")}
+              {renderCharSpan(headingLine3, "map-l3")}
             </span>
           </h2>
 
@@ -488,21 +486,18 @@ export default function MapSection({ data }: MapSectionProps) {
             className="w-full max-w-[340px] sm:max-w-[360px] xl:max-w-[380px] pt-6 sm:pt-8 xl:pt-20"
           >
             <Paragraph className="font-segoe text-[12px] sm:text-[13px] xl:text-[14px] 2xl:text-[15px] leading-[1.6] tracking-[0.06em] font-medium text-[#222222]/85 uppercase">
-              <span className="block">WE COMBINE STRATEGY AND</span>
-              <span className="block">BRANDING TO HELP REAL ESTATE</span>
-              <span className="block">BUSINESSES GROW.</span>
+              {description}
             </Paragraph>
           </div>
 
           <div ref={buttonRef} className="pt-6 sm:pt-8 xl:pt-10">
-            <button
-              type="button"
-              aria-label="Explore Our Work"
-              className="group inline-flex items-center justify-between gap-5 bg-white/95 px-6 sm:px-7 py-3 sm:py-3.5 rounded-[6px] border border-[#E5E0D8] text-[11px] sm:text-[12px] 2xl:text-[13px] font-segoe font-semibold tracking-[0.16em] text-[#121212] uppercase shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_18px_rgba(0,0,0,0.08)] hover:bg-white active:scale-95 transition-all duration-300 cursor-pointer"
+            <Button
+              href="#work"
+              variant="circle-arrow"
+              iconPosition="left"
             >
-              <span>{content.buttonText ?? "EXPLORE OUR WORK"}</span>
-              <span className="w-2 h-2 rounded-full bg-[#5BC4D8] shrink-0 group-hover:scale-125 transition-transform duration-300 shadow-[0_0_8px_rgba(91,196,216,0.6)]" />
-            </button>
+              EXPLORE OUR WORK
+            </Button>
           </div>
         </div>
       </div>

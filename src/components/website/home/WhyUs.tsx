@@ -7,61 +7,12 @@ import { Paragraph } from "@/components/common/Typography";
 import CharBlurDissolveHeading from "@/components/animations/CharBlurDissolveHeading";
 import type { WhyUsData, WhyUsItem } from "@/types/home";
 
-const DEFAULT_WHY_US_ITEMS: WhyUsItem[] = [
-  {
-    id: "why-1",
-    number: 1,
-    title: "Brand Catalyst",
-    description:
-      "We Create Unique Brands Through Strategic Positioning And Insights.",
-    image: "/images/why-us/catalyst.webp",
-    alt: "Brand Catalyst - Strategic Brand Positioning",
-  },
-  {
-    id: "why-2",
-    number: 2,
-    title: "Master Storytellers",
-    description:
-      "We Create Visual Experiences That Connect Ideas With Audiences.",
-    image: "/images/why-us/storyteller.webp",
-    alt: "Master Storytellers - Creative Production Studio",
-  },
-  {
-    id: "why-3",
-    number: 3,
-    title: "One stop Solution",
-    description:
-      "We Use Social Media And Marketing To Build Visibility And Generate Leads.",
-    image: "/images/why-us/solution.webp",
-    alt: "One Stop Solution - Comprehensive Digital Marketing",
-  },
-  {
-    id: "why-4",
-    number: 4,
-    title: "Digital Innovators",
-    description:
-      "Transforming Brand Presence With Data-Driven AI And Cutting-Edge Creative Precision.",
-    image: "/images/why-us/catalyst.webp",
-    alt: "Digital Innovators - AI & High Impact Media",
-  },
-  {
-    id: "why-5",
-    number: 5,
-    title: "Growth Partners",
-    description:
-      "Accelerating Market Leadership Through Long-Term Collaborations And Proven ROI.",
-    image: "/images/why-us/storyteller.webp",
-    alt: "Growth Partners - Long Term Enterprise Success",
-  },
-];
-
 interface WhyUsProps {
-  data?: WhyUsData;
+  data: WhyUsData;
 }
 
 export default function WhyUs({ data }: WhyUsProps) {
-  const items: WhyUsItem[] =
-    data?.items && data.items.length > 0 ? data.items : DEFAULT_WHY_US_ITEMS;
+  const { heading, tagline, taglineHighlight, items } = data;
 
   // Active slide index: strictly default to 1 = Slide 2 ("Master Storytellers")
   const [activeIndex, setActiveIndex] = useState(1);
@@ -313,7 +264,7 @@ export default function WhyUs({ data }: WhyUsProps) {
         <div className="text-center flex flex-col items-center justify-center mb-6 sm:mb-8 lg:mb-10">
           {/* Main Title with CharBlurDissolve animation */}
           <CharBlurDissolveHeading
-            text={data?.heading ?? "Why Us"}
+            text={heading}
             as="h2"
             className="font-voyage text-[52px] sm:text-[68px] lg:text-[84px] xl:text-[98px] 2xl:text-[112px] text-[#121212] leading-none tracking-normal"
             triggerRef={sectionRef}
@@ -326,10 +277,10 @@ export default function WhyUs({ data }: WhyUsProps) {
             className="flex items-center justify-center gap-2 sm:gap-2.5 mt-2.5 sm:mt-3 will-change-[transform,opacity,filter]"
           >
             <span className="font-segoe text-[11px] sm:text-[12px] xl:text-[13px] tracking-[0.24em] font-semibold text-[#121212]/80 uppercase">
-              {data?.tagline ?? "OUR"}
+              {tagline}
             </span>
             <span className="inline-block bg-[#AEE2F2] px-2.5 sm:px-3 py-0.5 rounded-[4px] text-[11px] sm:text-[12px] xl:text-[13px] font-segoe font-semibold tracking-[0.20em] text-[#121212] uppercase shadow-[0_2px_8px_rgba(174,226,242,0.35)]">
-              {data?.taglineHighlight ?? "EXPERTISE"}
+              {taglineHighlight}
             </span>
           </div>
         </div>

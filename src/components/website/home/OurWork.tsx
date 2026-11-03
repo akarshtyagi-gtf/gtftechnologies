@@ -7,82 +7,11 @@ import { SectionHeading, SubHeading } from "@/components/common/Typography";
 import { WorkCenterSlider } from "./WorkCenterSlider";
 import type { OurWorkData, WorkCard } from "@/types/home";
 
-const DEFAULT_OUR_WORK_DATA: OurWorkData = {
-  tagline: "SCROLL TO EXPLORE",
-  headingLine1: "Explore",
-  headingLine2: "Work",
-  subheading: ["IDEAS", "BEYOND", "ORDINARY"],
-  columns: {
-    left: [
-      {
-        id: "left-1",
-        title: "Trump Residences",
-        subtitle: "The World's Most Powerful Address",
-        brand: "Tribeca",
-        image: "/images/our-work/work-left1.webp",
-        alt: "Tribeca Trump - The World's Most Powerful Address Mobile Experience",
-      },
-      {
-        id: "left-2",
-        title: "Skyline Penthouse",
-        subtitle: "Architectural Grandeur & Skyline Living",
-        brand: "Luxury Living",
-        image: "/images/our-work/work-left2.webp",
-        alt: "Evening View from Luxury High-Rise Penthouse",
-      },
-    ],
-    centerMain: {
-      id: "center-main",
-      title: "The Ark - Tribeca Acropolis",
-      subtitle: "Voyage to the Stars",
-      brand: "Tribeca | Acropolis",
-      image: "/images/our-work/work-c1main3.webp",
-      alt: "The Ark Tribeca Acropolis Sunset Pergola Lounge",
-    },
-    centerRow: [
-      {
-        id: "center-row-1",
-        title: "Purvanchal Projects",
-        subtitle: "Intelligence In Every Space",
-        brand: "Purvanchal",
-        image: "/images/our-work/work-c2left.webp",
-        alt: "Purvanchal Projects - Intelligence In Every Space",
-      },
-      {
-        id: "center-row-2",
-        title: "Arqis Group",
-        subtitle: "The Arc of Real Estate",
-        brand: "Arqis",
-        image: "/images/our-work/work-c3right.webp",
-        alt: "Arqis Group - The Arc of Real Estate Outdoor Billboard",
-      },
-    ],
-    right: [
-      {
-        id: "right-1",
-        title: "Eldeco 7 Peaks Residences",
-        subtitle: "One Epic Landmark - 3 & 4 BR Residences",
-        brand: "Eldeco",
-        image: "/images/our-work/work-right1.webp",
-        alt: "Eldeco 7 Peaks Residences Highway Billboard Greater Noida",
-      },
-      {
-        id: "right-2",
-        title: "M3M Antalya Hills",
-        subtitle: "Masterplanned Luxury Residences",
-        brand: "M3M",
-        image: "/images/our-work/work-right2.webp",
-        alt: "M3M Antalya Hills Luxury Residential Architecture",
-      },
-    ],
-  },
-};
-
 interface OurWorkProps {
-  data?: OurWorkData;
+  data: OurWorkData;
 }
 
-export default function OurWork({ data = DEFAULT_OUR_WORK_DATA }: OurWorkProps) {
+export default function OurWork({ data }: OurWorkProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const pinContainerRef = useRef<HTMLDivElement>(null);
   const headingWrapperRef = useRef<HTMLDivElement>(null);
@@ -549,9 +478,9 @@ export default function OurWork({ data = DEFAULT_OUR_WORK_DATA }: OurWorkProps) 
                 as="h3"
                 className="text-[12px] sm:text-[14px] lg:text-[16px] xl:text-[18px] 2xl:text-[20px] leading-[115%] font-normal text-[#171717] tracking-[0.03em] uppercase text-left"
               >
-                <span className="block text-left">IDEAS</span>
+                <span className="block text-left pl-[86px]">IDEAS</span>
                 <span className="block text-right pr-2">BEYOND</span>
-                <span className="block text-left">ORDINARY</span>
+                <span className="block text-left pl-[86px]">ORDINARY</span>
               </SubHeading>
             </div>
           </div>

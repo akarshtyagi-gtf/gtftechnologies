@@ -9,140 +9,16 @@ import {
   charBlurInitialVars,
   charBlurAnimateVars,
 } from "@/components/animations/CharBlurDissolveHeading";
+import Button from "@/components/common/Button";
 import type { OurServicesData, ServiceItem } from "@/types/home";
 
-const DEFAULT_SERVICES_LIST: ServiceItem[] = [
-  {
-    id: "service-1",
-    counter: "01 / 05",
-    tagline: "OUR SERVICES",
-    titleLight: "BRAND",
-    titleHighlight: "STRATEGY",
-    buttonText: "EXPLORE SERVICES",
-    description:
-      "WE CREATE UNIQUE BRAND IDENTITIES AND STRATEGIES THAT HELP BUSINESSES CONNECT AND GROW.",
-    badges: [
-      "Competitor Analysis",
-      "Brand Creation",
-      "Brand Audits",
-      "Concept Development",
-      "Brand Hallmarks",
-      "Target Segmentation",
-    ],
-    card: {
-      id: "service-card-1",
-      title: "Brand Strategy Chess",
-      image: "/images/our-service/cardstack1.webp",
-      alt: "Brand Strategy Chess King - Front Card",
-    },
-  },
-  {
-    id: "service-2",
-    counter: "02 / 05",
-    tagline: "OUR SERVICES",
-    titleLight: "SOCIAL MEDIA",
-    titleHighlight: "AMPLIFICATION",
-    buttonText: "EXPLORE SERVICES",
-    description:
-      "LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. SED DO EIUSMOD TEMPOR INCIDIDUNT UT LABORE ET DOLORE MAGNA ALIQUA.",
-    badges: [
-      "Content Creation",
-      "Community Management",
-      "Influencer Outreach",
-      "Paid Campaigns",
-      "Viral Growth",
-      "Analytics & Insights",
-    ],
-    card: {
-      id: "service-card-2",
-      title: "Social Media Designs",
-      image: "/images/our-service/card-stack3.webp",
-      alt: "Grow Your Business with Powerful Social Media Designs",
-    },
-  },
-  {
-    id: "service-3",
-    counter: "03 / 05",
-    tagline: "OUR SERVICES",
-    titleLight: "WEBSITE",
-    titleHighlight: "CREATIVE",
-    buttonText: "EXPLORE SERVICES",
-    description:
-      "LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. UT ENIM AD MINIM VENIAM, QUIS NOSTRUD EXERCITATION ULLAMCO LABORIS NISI.",
-    badges: [
-      "UI/UX Design",
-      "Next.js Development",
-      "Interactive 3D",
-      "Performance Tuning",
-      "E-Commerce",
-      "Headless CMS",
-    ],
-    card: {
-      id: "service-card-3",
-      title: "Web Development",
-      image: "/images/our-service/card-stack2.webp",
-      alt: "Build Your Website Laptop",
-    },
-  },
-  {
-    id: "service-4",
-    counter: "04 / 05",
-    tagline: "OUR SERVICES",
-    titleLight: "DIGITAL",
-    titleHighlight: "MARKETING",
-    buttonText: "EXPLORE SERVICES",
-    description:
-      "LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. DUIS AUTE IRURE DOLOR IN REPREHENDERIT IN VOLUPTATE VELIT ESSE CILLUM.",
-    badges: [
-      "Performance Marketing",
-      "Search Engine Optimization",
-      "Conversion Rate",
-      "Audience Targeting",
-      "Funnel Automation",
-      "ROI Scaling",
-    ],
-    card: {
-      id: "service-card-4",
-      title: "Digital Marketing Acceleration",
-      image: "/images/our-service/card-stack4.webp",
-      alt: "Digital Marketing Strategy and Growth",
-    },
-  },
-  {
-    id: "service-5",
-    counter: "05 / 05",
-    tagline: "OUR SERVICES",
-    titleLight: "AI",
-    titleHighlight: "INNOVATION",
-    buttonText: "EXPLORE SERVICES",
-    description:
-      "LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. EXCEPTEUR SINT OCCAECAT CUPIDATAT NON PROIDENT, SUNT IN CULPA QUI OFFICIA.",
-    badges: [
-      "Generative AI",
-      "Workflow Automation",
-      "Custom LLM Integrations",
-      "Predictive Analytics",
-      "Cognitive Bots",
-      "Data Intelligence",
-    ],
-    card: {
-      id: "service-card-5",
-      title: "AI Innovation & Intelligence",
-      image: "/images/our-service/card-stack5.webp",
-      alt: "AI Innovation and Autonomous Systems",
-    },
-  },
-];
 
 interface OurServicesProps {
-  data?: OurServicesData;
+  data: OurServicesData;
 }
 
 export default function OurServices({ data }: OurServicesProps) {
-  const services: ServiceItem[] =
-    data?.services && data.services.length > 0
-      ? data.services
-      : DEFAULT_SERVICES_LIST;
+  const services: ServiceItem[] = data.services;
 
   const [activeServiceIndex, setActiveServiceIndex] = useState(0);
   const activeServiceIndexRef = useRef(0);
@@ -254,70 +130,88 @@ export default function OurServices({ data }: OurServicesProps) {
           const winWidth = window.innerWidth;
 
           // Responsive sizing & positioning tokens for 5-card row between "OUR" & "SERVICES"
-          let settleScale = 0.50;
-          let rowCardScale = 0.28;
-          let cardSpacing = 112;
+          let settleScale = 0.44;
+          let rowCardScale = 0.26;
+          let cardGap = 28;
 
           if (winWidth < 1150) {
-            settleScale = 0.36;
+            settleScale = 0.34;
             rowCardScale = 0.20;
-            cardSpacing = 72;
+            cardGap = 16;
           } else if (winWidth < 1280) {
-            settleScale = 0.40;
-            rowCardScale = 0.23;
-            cardSpacing = 86;
+            settleScale = 0.37;
+            rowCardScale = 0.22;
+            cardGap = 20;
           } else if (winWidth < 1440) {
-            settleScale = 0.45;
-            rowCardScale = 0.26;
-            cardSpacing = 100;
+            settleScale = 0.40;
+            rowCardScale = 0.24;
+            cardGap = 24;
           } else if (winWidth < 1680) {
-            settleScale = 0.50;
-            rowCardScale = 0.30;
-            cardSpacing = 118;
+            settleScale = 0.44;
+            rowCardScale = 0.26;
+            cardGap = 28;
           } else {
-            settleScale = 0.54;
-            rowCardScale = 0.34;
-            cardSpacing = 138;
+            settleScale = 0.48;
+            rowCardScale = 0.28;
+            cardGap = 32;
           }
 
           // Measure card real width in the DOM
           const cardEl = cardRefs.current[0];
+          const centerCol = cardEl?.parentElement;
           const cardMeasuredWidth =
             cardEl?.offsetWidth || (winWidth >= 1536 ? 480 : winWidth >= 1280 ? 400 : 350);
           const scaledCardWidth = cardMeasuredWidth * rowCardScale;
           const cardHalfWidth = scaledCardWidth / 2;
+          // Clean, generous gap between cards so they never overlap or touch
+          const cardSpacing = scaledCardWidth + cardGap;
           const cardsOuterEdge = 2 * cardSpacing + cardHalfWidth;
 
-          // Inner wrap and heading elements measurements (untransformed layout offsets)
-          const wrapEl = innerHeadingWrapRef.current;
+          // Inner wrap and heading elements measurements
           const ourEl = textOurRef.current;
           const servicesEl = textServicesRef.current;
+          if (!ourEl || !servicesEl) return;
 
-          const ourWidth = ourEl?.offsetWidth || 220;
-          const servicesWidth = servicesEl?.offsetWidth || 500;
-          const wrapWidth = wrapEl?.offsetWidth || ourWidth + 32 + servicesWidth;
-          const wrapLeft = -wrapWidth / 2;
+          // Untransformed centers & dimensions relative to viewport center
+          const currentXOur = Number(gsap.getProperty(ourEl, "x") || 0);
+          const currentXServices = Number(gsap.getProperty(servicesEl, "x") || 0);
+          const currentScaleOur = Number(gsap.getProperty(ourEl, "scale") || 1);
+          const currentScaleServices = Number(gsap.getProperty(servicesEl, "scale") || 1);
 
-          // Initial untransformed center coordinates relative to viewport center
-          const initialOurCenter = wrapLeft + (ourEl?.offsetLeft ?? 0) + ourWidth / 2;
+          const ourRect = ourEl.getBoundingClientRect();
+          const servicesRect = servicesEl.getBoundingClientRect();
+
+          const initialOurCenter =
+            ourRect.left + ourRect.width / 2 - winWidth / 2 - currentXOur;
           const initialServicesCenter =
-            wrapLeft + (servicesEl?.offsetLeft ?? ourWidth + 32) + servicesWidth / 2;
+            servicesRect.left + servicesRect.width / 2 - winWidth / 2 - currentXServices;
+
+          const ourWidth = ourRect.width / currentScaleOur;
+          const servicesWidth = servicesRect.width / currentScaleServices;
 
           const scaledOurWidth = ourWidth * settleScale;
           const scaledServicesWidth = servicesWidth * settleScale;
 
-          // Website container-padding is 48px (3rem) on desktop, exactly where the MENU button ends
+          // Website container-padding is 48px (3rem) on desktop
           const paddingX = winWidth >= 1024 ? 48 : 40;
           const rightBoundary = winWidth / 2 - paddingX;
 
+          // Compute exact horizontal offset of the card stack column relative to viewport center
+          const centerColRect = centerCol?.getBoundingClientRect();
+          const cardCenterOffset = centerColRect
+            ? centerColRect.left + centerColRect.width / 2 - winWidth / 2
+            : 0;
+
           // Strictly EQUAL gap calculation on both sides of the cards row:
-          // Distance(OUR, Card 0) === Distance(Card 2, SERVICES) === equalGap
-          const maxAvailableGap = rightBoundary - cardsOuterEdge - scaledServicesWidth;
-          const equalGap = Math.max(36, Math.min(maxAvailableGap, 76));
+          // Distance(OUR right edge, Card 0 left edge) === Distance(Card 4 right edge, SERVICES left edge) === equalGap
+          const maxAvailableGap =
+            rightBoundary - (cardsOuterEdge + cardCenterOffset) - scaledServicesWidth;
+          const preferredGap = winWidth >= 1536 ? 64 : winWidth >= 1280 ? 56 : 48;
+          const equalGap = Math.max(28, Math.min(preferredGap, maxAvailableGap - 16));
 
           // Target settled centers ensuring 100% symmetrical, equal spacing on left & right
-          const targetOurCenter = -cardsOuterEdge - equalGap - scaledOurWidth / 2;
-          const targetServicesCenter = cardsOuterEdge + equalGap + scaledServicesWidth / 2;
+          const targetOurCenter = cardCenterOffset - cardsOuterEdge - equalGap - scaledOurWidth / 2;
+          const targetServicesCenter = cardCenterOffset + cardsOuterEdge + equalGap + scaledServicesWidth / 2;
 
           const settleXOur = targetOurCenter - initialOurCenter;
           const settleXServices = targetServicesCenter - initialServicesCenter;
@@ -869,7 +763,7 @@ export default function OurServices({ data }: OurServicesProps) {
   };
 
   const currentService = services[activeServiceIndex] || services[0];
-  const badges = currentService.badges ?? [];
+  const badges = currentService.badges;
 
   return (
     <section
@@ -950,49 +844,48 @@ export default function OurServices({ data }: OurServicesProps) {
         {/* MAIN EDITORIAL GRID (3-Zone Placement)                         */}
         {/* Zone 1: Left Content | Zone 2: Center Card Stack | Zone 3: Right */}
         {/* ============================================================== */}
-        <div className="relative z-30 w-full max-w-[1400px] flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-6 xl:gap-8">
+        <div className="relative z-30 w-full max-w-[1400px] mx-auto flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-6 xl:gap-8">
           {/* ========================================== */}
           {/* LEFT COLUMN: Counter, Tag, Title, Button   */}
           {/* ========================================== */}
           <div
             ref={leftContentRef}
-            className="w-full lg:w-[260px] xl:w-[300px] 2xl:w-[360px] flex flex-col justify-between items-start text-left shrink-0 z-30 order-2 lg:order-1 h-auto lg:h-[400px] xl:h-[450px] 2xl:h-[530px] pt-14 xl:pt-16 2xl:pt-4 will-change-transform opacity-0"
+            className="w-full lg:w-[280px] xl:w-[320px] 2xl:w-[380px] flex flex-col justify-between items-start text-left shrink-0 z-30 order-2 lg:order-1 h-auto lg:h-[400px] xl:h-[450px] 2xl:h-[530px] pt-14 xl:pt-16 2xl:pt-4 will-change-transform opacity-0"
           >
-            {/* Top: Counter with Outline Loader (Counter directly rendered without ContentReveal) */}
-            <div className="w-full flex items-center justify-start gap-3.5">
-              {/* Circular Outline Loader */}
-              <div className="relative w-8 h-8 flex items-center justify-center shrink-0">
-                <svg className="w-full h-full -rotate-90 transform" viewBox="0 0 36 36">
-                  {/* Track circle */}
-                  <circle
-                    cx="18"
-                    cy="18"
-                    r="14"
-                    stroke="#E5E0D8"
-                    strokeWidth="2.5"
-                    fill="none"
-                  />
-                  {/* Active progress stroke */}
-                  <circle
-                    ref={outlineCircleRef}
-                    cx="18"
-                    cy="18"
-                    r="14"
-                    stroke="#121212"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    fill="none"
-                    strokeDasharray={88}
-                    strokeDashoffset={88}
-                  />
-                </svg>
-                {/* Center golden accent dot */}
-                <span className="w-1.5 h-1.5 rounded-full bg-[#E5B842] absolute" />
-              </div>
+            {/* Top: Circular Progress Loader Ring with Centered Counter */}
+            <div className="relative w-[50px] h-[50px] sm:w-[56px] sm:h-[56px] lg:w-[69px] lg:h-[69px] rounded-full flex items-center justify-center shrink-0">
+              {/* Concentric Circular Progress Loader Ring */}
+              <svg
+                className="absolute inset-0 w-full h-full -rotate-90 pointer-events-none"
+                viewBox="0 0 36 36"
+              >
+                {/* Background Track Circle */}
+                <circle
+                  cx="18"
+                  cy="18"
+                  r="14"
+                  stroke="#E5E0D8"
+                  strokeWidth="0.9"
+                  fill="none"
+                />
+                {/* Active progress stroke (Thin refined ring) */}
+                <circle
+                  ref={outlineCircleRef}
+                  cx="18"
+                  cy="18"
+                  r="14"
+                  stroke="#121212"
+                  strokeWidth="0.30"
+                  strokeLinecap="round"
+                  fill="none"
+                  strokeDasharray={88}
+                  strokeDashoffset={88}
+                />
+              </svg>
 
-              {/* Counter displays directly (ContentReveal removed as requested) */}
-              <span className="font-voyage text-[22px] sm:text-[26px] lg:text-[28px] 2xl:text-[32px] text-[#121212]/90 tracking-wider">
-                {currentService.counter ?? `0${activeServiceIndex + 1} / 05`}
+              {/* Number in Center (Larger size, no leading 0) */}
+              <span className="font-voyage text-[16px] sm:text-[18px] lg:text-[22px] 2xl:text-[22px] text-[#121212] tracking-wider select-none">
+                {currentService.counter}
               </span>
             </div>
 
@@ -1000,7 +893,7 @@ export default function OurServices({ data }: OurServicesProps) {
             <div className="my-auto py-4 lg:py-0 w-full">
               {/* Tag: OUR SERVICES */}
               <span className="block font-segoe text-[11px] sm:text-[12px] xl:text-[13px] tracking-[0.24em] font-semibold text-[#121212]/75 uppercase mb-2 sm:mb-2.5">
-                {currentService.tagline ?? "OUR SERVICES"}
+                {currentService.tagline}
               </span>
 
               {/* Title with Yellow Highlight using staggered ContentReveal */}
@@ -1018,16 +911,15 @@ export default function OurServices({ data }: OurServicesProps) {
               </ContentReveal>
             </div>
 
-            {/* Bottom: EXPLORE SERVICES Button with Golden Dot */}
+            {/* Bottom: EXPLORE SERVICES Button */}
             <div className="w-full pt-2">
-              <button
-                type="button"
-                aria-label="Explore Services"
-                className="group inline-flex items-center justify-between gap-4 bg-white/95 px-5 sm:px-6 py-2.5 sm:py-3 rounded-[6px] border border-[#E5E0D8] text-[11px] sm:text-[12px] 2xl:text-[13px] font-segoe font-semibold tracking-[0.14em] text-[#121212] uppercase shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_16px_rgba(0,0,0,0.08)] hover:bg-white active:scale-95 transition-all duration-300 cursor-pointer"
+              <Button
+                href="#contact"
+                variant="circle-arrow"
+                iconPosition="left"
               >
-                <span>{currentService.buttonText ?? "EXPLORE SERVICES"}</span>
-                <span className="w-2 h-2 rounded-full bg-[#E5B842] shrink-0 group-hover:scale-125 transition-transform duration-300" />
-              </button>
+                EXPLORE SERVICES
+              </Button>
             </div>
           </div>
 
@@ -1037,16 +929,11 @@ export default function OurServices({ data }: OurServicesProps) {
           {/* ========================================== */}
           <div className="relative w-full max-w-[320px] sm:max-w-[360px] lg:w-[350px] xl:w-[400px] 2xl:w-[480px] aspect-[498/636] shrink-0 flex items-center justify-center order-1 lg:order-2 my-4 lg:my-0 [perspective:1200px]">
             {services.map((item, idx) => {
-              const cardData = item.card ?? {
-                id: `card-${idx}`,
-                title: item.titleHighlight,
-                image: "/images/our-service/cardstack1.webp",
-                alt: `${item.titleLight} ${item.titleHighlight}`,
-              };
+              const cardData = item.card;
 
               return (
                 <div
-                  key={item.id ?? `service-card-${idx}`}
+                  key={item.id}
                   ref={(el) => {
                     cardRefs.current[idx] = el;
                   }}
@@ -1076,7 +963,7 @@ export default function OurServices({ data }: OurServicesProps) {
           {/* ========================================== */}
           <div
             ref={rightContentRef}
-            className="w-full lg:w-[280px] xl:w-[340px] 2xl:w-[400px] flex flex-col justify-between items-start lg:items-end text-left shrink-0 z-30 order-3 h-auto lg:h-[400px] xl:h-[450px] 2xl:h-[530px] pt-14 xl:pt-16 2xl:pt-4 will-change-transform opacity-0"
+            className="w-full lg:w-[280px] xl:w-[320px] 2xl:w-[380px] flex flex-col justify-between items-start lg:items-end text-left shrink-0 z-30 order-3 h-auto lg:h-[400px] xl:h-[450px] 2xl:h-[530px] pt-14 xl:pt-16 2xl:pt-4 will-change-transform opacity-0"
           >
             {/* Top Right Paragraph with ContentReveal */}
             <div className="w-full">
@@ -1100,8 +987,8 @@ export default function OurServices({ data }: OurServicesProps) {
                       key={`badge-${activeServiceIndex}-${idx}`}
                       className="flex items-center gap-2.5 text-left"
                     >
-                      <span className="w-2 h-2 rounded-full bg-[#121212]/80 shrink-0" />
-                      <span className="font-segoe text-[13px] sm:text-[14px] xl:text-[12px] 2xl:text-[12px] text-[#222222]/90 font-medium leading-[1.3] tracking-[0.01em]">
+                      <span className="w-1 h-1 rounded-full bg-[#121212]/80 shrink-0" />
+                      <span className="font-segoe text-[13px] sm:text-[14px] xl:text-[12px] 2xl:text-[13px] text-[#000000] font-normal leading-[1.3] tracking-[0.01em]">
                         {badge}
                       </span>
                     </div>

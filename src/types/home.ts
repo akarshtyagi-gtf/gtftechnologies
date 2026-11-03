@@ -7,17 +7,16 @@ export interface BannerSlideItem {
 }
 
 export interface BannerData {
-  headingLine1?: string;
-  headingLine2Prefix?: string;
-  headingLine2Highlight?: string;
-  headingLine3Highlight?: string;
-  headingLine3Suffix?: string;
-  headingLine4Prefix?: string;
-  headingLine4Highlight?: string;
-  description?: string;
-  buttonText?: string;
-  buttonLink?: string;
-  scrollText?: string;
+  headingLine1: string;
+  headingLine2Prefix: string;
+  headingLine2Highlight: string;
+  headingLine3Highlight: string;
+  headingLine3Suffix: string;
+  headingLine4Prefix: string;
+  headingLine4Highlight: string;
+  description: string;
+  buttonLink: string;
+  scrollText: string;
   sliderCol1: BannerSlideItem[];
   sliderCol2: BannerSlideItem[];
   sliderCol3: BannerSlideItem[];
@@ -57,11 +56,11 @@ export interface TrustItem {
 }
 
 export interface OurTrustData {
-  tagline?: string;
-  headingPrefix?: string;
-  headingHighlight?: string;
-  description?: string;
-  items?: TrustItem[];
+  tagline: string;
+  headingPrefix: string;
+  headingHighlight: string;
+  description: string;
+  items: TrustItem[];
 }
 
 // 3. Our Services Section Types
@@ -74,38 +73,26 @@ export interface ServiceCardItem {
 
 export interface ServiceItem {
   id: string;
-  counter?: string;
-  tagline?: string;
+  counter: string;
+  tagline: string;
   titleLight: string;
   titleHighlight: string;
-  buttonText?: string;
   description: string;
-  badges?: string[];
-  card?: ServiceCardItem;
+  badges: string[];
+  card: ServiceCardItem;
 }
 
 export interface OurServicesData {
-  tagline?: string;
-  buttonText?: string;
-  services?: ServiceItem[];
-  // Legacy / fallback fields:
-  counter?: string;
-  titleLight?: string;
-  titleHighlight?: string;
-  description?: string;
-  badges?: string[];
-  cards?: ServiceCardItem[];
+  services: ServiceItem[];
 }
 
 // 4. Map Section Types
 export interface MapSectionData {
-  headingLine1?: string;
-  headingLine2Part1?: string;
-  headingLine2Highlight?: string;
-  headingLine3?: string;
-  description?: string;
-  buttonText?: string;
-  videoSrc?: string;
+  headingLine1: string;
+  headingLine2Part1: string;
+  headingLine2Highlight: string;
+  headingLine3: string;
+  description: string;
 }
 
 // 5. Why Us Section Types
@@ -119,9 +106,9 @@ export interface WhyUsItem {
 }
 
 export interface WhyUsData {
-  tagline?: string;
-  taglineHighlight?: string;
-  heading?: string;
+  heading: string;
+  tagline: string;
+  taglineHighlight: string;
   items: WhyUsItem[];
 }
 
@@ -134,51 +121,37 @@ export interface ReelItem {
 }
 
 export interface WeThinkBigData {
-  headingLine1?: string;
-  headingLine2Part1?: string;
-  headingLine2Highlight?: string;
-  description?: string;
-  buttonText?: string;
-  buttonLink?: string;
+  headingLine1: string;
+  headingLine2Part1: string;
+  headingLine2Highlight: string;
+  description: string;
+  buttonLink: string;
   reels: ReelItem[];
 }
 
 // 7. Let's Talk Section Types
 export interface LetsTalkData {
-  tagline?: string;
-  headingLine1?: string;
-  headingLine2?: string;
-  description?: string;
-  locationTitle?: string;
-  email?: string;
-  taglineInfo?: string;
-  sideImageSrc?: string;
-  sideImageAlt?: string;
-  buttonText?: string;
-  responseTimeNote?: string;
+  heading: string;
+  subheading: string;
+  subheadingHighlight: string;
 }
 
 // 8. Driven By Results Section Types
 export interface DrivenByResultsData {
-  tagline?: string;
-  heading?: string;
-  headingLine1?: string;
-  headingLine2Highlight?: string;
-  description?: string;
-  videoSrc?: string;
-  posterSrc?: string;
-  partnerCardSrc?: string;
-  partnerCardAlt?: string;
-  partnerLogoSrc?: string;
-  partnerLogoAlt?: string;
+  tagline: string;
+  headingLine1: string;
+  headingLine2Highlight: string;
+  description: string;
+  videoSrc: string;
+  posterSrc: string;
 }
 
 // 9. Connect Us Section Types
 export interface ConnectUsData {
-  prefixText?: string;
-  title?: string;
-  imageSrc?: string;
-  imageAlt?: string;
+  prefixText: string;
+  title: string;
+  imageSrc: string;
+  imageAlt: string;
 }
 
 // 10. Footer / Across India Section Types
@@ -192,28 +165,28 @@ export interface OfficeLocation {
 }
 
 export interface FooterAcrossIndiaData {
-  heading?: string;
-  subheading?: string;
+  heading: string;
+  subheading: string;
   offices: OfficeLocation[];
-  mapImageSrc?: string;
-  mapImageAlt?: string;
-  phone?: string;
-  email?: string;
-  copyright?: string;
+  mapImageSrc: string;
+  mapImageAlt: string;
+  phone: string;
+  email: string;
+  copyright: string;
 }
 
 // Full Home Page Data Contract
 export interface HomePageData {
-  banner?: BannerData;
+  banner: BannerData;
   ourWork: OurWorkData;
-  ourTrust?: OurTrustData;
-  ourServices?: OurServicesData;
-  mapSection?: MapSectionData;
-  whyUs?: WhyUsData;
-  weThinkBig?: WeThinkBigData;
-  letsTalk?: LetsTalkData;
-  drivenByResults?: DrivenByResultsData;
-  connectUs?: ConnectUsData;
-  footer?: FooterAcrossIndiaData;
+  ourTrust: OurTrustData;
+  ourServices: OurServicesData;
+  mapSection: MapSectionData;
+  whyUs: WhyUsData;
+  weThinkBig: WeThinkBigData;
+  letsTalk: LetsTalkData;
+  drivenByResults: DrivenByResultsData;
+  connectUs: ConnectUsData;
+  footer: FooterAcrossIndiaData;
 }
 

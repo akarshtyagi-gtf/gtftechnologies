@@ -1,60 +1,29 @@
 "use client";
 
 import Image from "next/image";
-import type { BannerData, BannerSlideItem } from "@/types/home";
-
-const DEFAULT_SLIDER_COL1: BannerSlideItem[] = [
-  { src: "/images/slider/slider1.png", alt: "Tribeca Apex" },
-  { src: "/images/slider/slider2.png", alt: "Hindustan Times Feature" },
-  { src: "/images/slider/slider1.png", alt: "Tribeca Apex" },
-  { src: "/images/slider/slider2.png", alt: "Hindustan Times Feature" },
-];
-
-const DEFAULT_SLIDER_COL2: BannerSlideItem[] = [
-  { src: "/images/slider/slider4.png", alt: "Luxury Estate" },
-  { src: "/images/slider/slider3.png", alt: "A Night of Prestige" },
-  { src: "/images/slider/slider4.png", alt: "Luxury Estate" },
-  { src: "/images/slider/slider3.png", alt: "A Night of Prestige" },
-];
-
-const DEFAULT_SLIDER_COL3: BannerSlideItem[] = [
-  { src: "/images/slider/slider2.png", alt: "Architectural Showcase" },
-  { src: "/images/slider/slider4.png", alt: "Where Morning Meets Sky" },
-  { src: "/images/slider/slider1.png", alt: "Tribeca Edition" },
-  { src: "/images/slider/slider3.png", alt: "Exclusive Gala" },
-];
+import Button from "@/components/common/Button";
+import type { BannerData } from "@/types/home";
 
 interface BannerProps {
-  data?: BannerData;
+  data: BannerData;
 }
 
 export default function Banner({ data }: BannerProps) {
-  const sliderCol1 =
-    data?.sliderCol1 && data.sliderCol1.length > 0
-      ? data.sliderCol1
-      : DEFAULT_SLIDER_COL1;
-  const sliderCol2 =
-    data?.sliderCol2 && data.sliderCol2.length > 0
-      ? data.sliderCol2
-      : DEFAULT_SLIDER_COL2;
-  const sliderCol3 =
-    data?.sliderCol3 && data.sliderCol3.length > 0
-      ? data.sliderCol3
-      : DEFAULT_SLIDER_COL3;
-
-  const headingLine1 = data?.headingLine1 ?? "WE HELP BRIDGE";
-  const headingLine2Prefix = data?.headingLine2Prefix ?? "THE GAP IN";
-  const headingLine2Highlight = data?.headingLine2Highlight ?? "BRANDING";
-  const headingLine3Highlight = data?.headingLine3Highlight ?? "DIGITAL MARKETING";
-  const headingLine3Suffix = data?.headingLine3Suffix ?? "&";
-  const headingLine4Prefix = data?.headingLine4Prefix ?? "DOUBLE-DIGIT";
-  const headingLine4Highlight = data?.headingLine4Highlight ?? "GROWTH";
-  const description =
-    data?.description ??
-    "Specialising in Real estate clients — industry giants to boutique concepts.";
-  const buttonText = data?.buttonText ?? "KNOW MORE";
-  const buttonLink = data?.buttonLink ?? "#work";
-  const scrollText = data?.scrollText ?? "SCROLL TO EXPLORE";
+  const {
+    sliderCol1,
+    sliderCol2,
+    sliderCol3,
+    headingLine1,
+    headingLine2Prefix,
+    headingLine2Highlight,
+    headingLine3Highlight,
+    headingLine3Suffix,
+    headingLine4Prefix,
+    headingLine4Highlight,
+    description,
+    buttonLink,
+    scrollText,
+  } = data;
 
   return (
     <section
@@ -140,7 +109,7 @@ export default function Banner({ data }: BannerProps) {
               <span className="font-normal uppercase text-[#121212] bg-[#FDF097] px-2 sm:px-2.5 2xl:px-3.5 py-0 sm:py-0.5 rounded-none text-[24px] sm:text-[30px] md:text-[34px] lg:text-[38px] xl:text-[48px] 2xl:text-[54px] 2xl:leading-[74px]">
                 {headingLine3Highlight}
               </span>
-              <span>{headingLine3Suffix}</span>
+              <span className="">{headingLine3Suffix}</span>
             </div>
 
             {/* Line 4 */}
@@ -159,33 +128,13 @@ export default function Banner({ data }: BannerProps) {
 
           {/* CTA Button */}
           <div>
-            <a
+            <Button
               href={buttonLink}
-              className="group inline-flex items-center gap-3 sm:gap-4 select-none cursor-pointer"
+              variant="circle-arrow"
+              iconPosition="left"
             >
-              <div className="w-10 h-10 2xl:w-11 2xl:h-11 rounded-full border border-black/40 flex items-center justify-center transition-all duration-300 group-hover:border-black group-hover:bg-black group-hover:text-white">
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="transform group-hover:translate-x-0.5 transition-transform"
-                >
-                  <path
-                    d="M3 8H13M13 8L8.5 3.5M13 8L8.5 12.5"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </div>
-
-              <span className="font-segoe font-medium text-xs sm:text-sm tracking-[0.14em] uppercase text-[#171717] group-hover:text-black">
-                {buttonText}
-              </span>
-            </a>
+              KNOW MORE
+            </Button>
           </div>
         </div>
       </div>

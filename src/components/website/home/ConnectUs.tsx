@@ -10,18 +10,11 @@ import {
 import type { ConnectUsData } from "@/types/home";
 
 interface ConnectUsProps {
-  data?: ConnectUsData;
+  data: ConnectUsData;
 }
 
-const DEFAULT_DATA: ConnectUsData = {
-  prefixText: "Where",
-  title: "Ideas Connect.",
-  imageSrc: "/images/connect-us/connect-us.web.webp",
-  imageAlt: "Where Ideas Connect - GTF Technologies Digital Workspace",
-};
-
 export default function ConnectUs({ data }: ConnectUsProps) {
-  const content = { ...DEFAULT_DATA, ...data };
+  const { prefixText, title, imageSrc, imageAlt } = data;
 
   const sectionRef = useRef<HTMLElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
@@ -166,8 +159,8 @@ export default function ConnectUs({ data }: ConnectUsProps) {
             className="absolute inset-[-8%] w-[116%] h-[116%] will-change-transform"
           >
             <Image
-              src={content.imageSrc || "/images/connect-us/connect-us.web.webp"}
-              alt={content.imageAlt || "Where Ideas Connect"}
+              src={imageSrc}
+              alt={imageAlt}
               fill
               loading="lazy"
               sizes="(max-width: 1024px) 100vw, 1680px"
@@ -186,7 +179,7 @@ export default function ConnectUs({ data }: ConnectUsProps) {
               ref={prefixCharsRef}
               className="font-voyage italic text-2xl sm:text-3xl lg:text-4xl xl:text-[55px] leading-tight text-white/95 mb-0.5 sm:mb-1 will-change-[transform,opacity,filter] [perspective:1200px]"
             >
-              {splitTextChars(content.prefixText || "Where").map((item, idx) => (
+              {splitTextChars(prefixText).map((item, idx) => (
                 <span
                   key={`pref-${idx}`}
                   className="connect-prefix-char inline-block will-change-[transform,filter,opacity]"
@@ -201,7 +194,7 @@ export default function ConnectUs({ data }: ConnectUsProps) {
               ref={titleCharsRef}
               className="font-voyage text-4xl sm:text-6xl lg:text-[76px] xl:text-[140px] 2xl:text-[150px] text-white font-normal leading-[0.98] sm:leading-[1.0] tracking-tight will-change-[transform,opacity,filter] [perspective:1200px]"
             >
-              {splitTextChars(content.title || "Ideas Connect.").map(
+              {splitTextChars(title).map(
                 (item, idx) => (
                   <span
                     key={`tit-${idx}`}

@@ -12,21 +12,18 @@ import {
 import type { DrivenByResultsData } from "@/types/home";
 
 interface DrivenByResultsProps {
-  data?: DrivenByResultsData;
+  data: DrivenByResultsData;
 }
 
-const DEFAULT_DATA: DrivenByResultsData = {
-  tagline: "RECOGNISED FOR EXPERTISE.",
-  headingLine1: "Driven By",
-  headingLine2Highlight: "Results",
-  description:
-    "GTF Technologies merges strategy, storytelling, and marketing to help real estate brands stand out. Our Google Ads expertise boosts digital presence and drives measurable growth.",
-  videoSrc: "/images/partner/partner.mp4",
-  posterSrc: "/images/partner/partership.webp",
-};
-
 export default function DrivenByResults({ data }: DrivenByResultsProps) {
-  const content = { ...DEFAULT_DATA, ...data };
+  const {
+    tagline,
+    headingLine1,
+    headingLine2Highlight,
+    description,
+    videoSrc,
+    posterSrc,
+  } = data;
 
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -177,8 +174,8 @@ export default function DrivenByResults({ data }: DrivenByResultsProps) {
       <div className="absolute inset-0 z-0 pointer-events-none select-none overflow-hidden">
         <video
           ref={videoRef}
-          data-src={content.videoSrc || "/images/partner/partner.mp4"}
-          poster={content.posterSrc || "/images/partner/partership.webp"}
+          data-src={videoSrc}
+          poster={posterSrc}
           muted
           loop
           playsInline
@@ -217,7 +214,7 @@ export default function DrivenByResults({ data }: DrivenByResultsProps) {
             className="will-change-[transform,opacity,filter] mb-2 sm:mb-2.5 lg:mb-3.5"
           >
             <span className="font-segoe uppercase text-[10px] sm:text-[11px] lg:text-xs tracking-[0.24em] text-[#6E6E6E] font-medium">
-              {content.tagline}
+              {tagline}
             </span>
           </div>
 
@@ -227,7 +224,7 @@ export default function DrivenByResults({ data }: DrivenByResultsProps) {
             className="font-voyage text-[36px] sm:text-[46px] md:text-[48px] lg:text-[56px] xl:text-[68px] 2xl:text-[76px] text-[#121212] font-normal leading-[1.06] tracking-tight will-change-[transform,opacity,filter] [perspective:1200px]"
           >
             <span className="block">
-              {splitTextChars(content.headingLine1 || "Driven By").map(
+              {splitTextChars(headingLine1).map(
                 (item, idx) => (
                   <span
                     key={`res-l1-${idx}`}
@@ -244,7 +241,7 @@ export default function DrivenByResults({ data }: DrivenByResultsProps) {
                 ref={highlightBoxRef}
                 className="inline-block bg-[#FDEBB5] px-2 sm:px-3 py-0.5 sm:py-0.5 rounded-[4px] sm:rounded-[6px] text-[#121212] shadow-[0_2px_12px_rgba(253,235,181,0.45)] will-change-[transform,opacity,filter]"
               >
-                {splitTextChars(content.headingLine2Highlight || "Results").map(
+                {splitTextChars(headingLine2Highlight).map(
                   (item, idx) => (
                     <span
                       key={`res-l2-${idx}`}
@@ -267,7 +264,7 @@ export default function DrivenByResults({ data }: DrivenByResultsProps) {
               blurAmount={8}
             >
               <Paragraph className="text-[#333333]/90 text-[12px] sm:text-[13px] lg:text-[16px] leading-[1.65] font-segoe font-normal">
-                {content.description}
+                {description}
               </Paragraph>
             </ContentReveal>
           </div>

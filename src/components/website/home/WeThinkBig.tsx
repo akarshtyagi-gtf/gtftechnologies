@@ -8,48 +8,22 @@ import {
   charBlurInitialVars,
   charBlurAnimateVars,
 } from "@/components/animations/CharBlurDissolveHeading";
+import Button from "@/components/common/Button";
 import type { WeThinkBigData, ReelItem } from "@/types/home";
 
-const DEFAULT_REELS: ReelItem[] = [
-  {
-    id: "reel-1",
-    tag: "01 / STRATEGY",
-    videoSrc: "/images/reel/reel1.mp4",
-    alt: "Strategic Brand Foundation",
-  },
-  {
-    id: "reel-2",
-    tag: "02 / BRANDS",
-    videoSrc: "/images/reel/reel2.mp4",
-    alt: "Architectural & Luxury Brand Identity",
-  },
-  {
-    id: "reel-3",
-    tag: "03 / GROWTH",
-    videoSrc: "/images/reel/reel4.mp4",
-    alt: "National Monuments & Landmark Campaigns",
-  },
-  {
-    id: "reel-4",
-    tag: "04 / PERFORMANCE",
-    videoSrc: "/images/reel/reel5.mp4",
-    alt: "High Impact Digital Media Growth",
-  },
-  {
-    id: "reel-5",
-    tag: "05 / PRODUCTION",
-    videoSrc: "/images/reel/reel6.mp4",
-    alt: "Commercial Film & Visual Storytelling",
-  },
-];
-
 interface WeThinkBigProps {
-  data?: WeThinkBigData;
+  data: WeThinkBigData;
 }
 
 export default function WeThinkBig({ data }: WeThinkBigProps) {
-  const reels: ReelItem[] =
-    data?.reels && data.reels.length > 0 ? data.reels : DEFAULT_REELS;
+  const {
+    reels,
+    headingLine1,
+    headingLine2Part1,
+    headingLine2Highlight,
+    description,
+    buttonLink,
+  } = data;
 
   // Active slide index: strictly default to 1 = Reel 2 ("02 / BRANDS")
   const [activeIndex, setActiveIndex] = useState(1);
@@ -336,14 +310,6 @@ export default function WeThinkBig({ data }: WeThinkBigProps) {
     touchStartXRef.current = null;
   };
 
-  const headingLine1 = data?.headingLine1 ?? "We";
-  const headingLine2Part1 = data?.headingLine2Part1 ?? "Think ";
-  const headingLine2Highlight = data?.headingLine2Highlight ?? "Big.";
-  const description =
-    data?.description ??
-    "Born from Gurukul The Foundation, GTF Technologies is a performance-driven digital media and branding company based in New Delhi. With 17+ years of expertise and 100+ clients, we help real estate brands build visibility, identity, and growth.";
-  const buttonText = data?.buttonText ?? "DISCOVER OUR STORY";
-  const buttonLink = data?.buttonLink ?? "#work";
 
   return (
     <section
@@ -424,35 +390,15 @@ export default function WeThinkBig({ data }: WeThinkBigProps) {
             </Paragraph>
           </div>
 
-          {/* CTA Button: SVG circle with arrow + DISCOVER OUR STORY */}
+          {/* CTA Button */}
           <div className="mt-8 sm:mt-10 thinkbig-reveal-item will-change-[transform,opacity]">
-            <a
+            <Button
               href={buttonLink}
-              className="group inline-flex items-center gap-3 sm:gap-4 select-none cursor-pointer"
+              variant="circle-arrow"
+              iconPosition="left"
             >
-              <div className="w-10 h-10 2xl:w-11 2xl:h-11 rounded-full border border-black/40 flex items-center justify-center transition-all duration-300 group-hover:border-black group-hover:bg-black group-hover:text-white shadow-sm">
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="transform group-hover:translate-x-0.5 transition-transform"
-                >
-                  <path
-                    d="M3 8H13M13 8L8.5 3.5M13 8L8.5 12.5"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </div>
-
-              <span className="font-segoe font-medium text-xs sm:text-[13px] tracking-[0.16em] uppercase text-[#171717] group-hover:text-black transition-colors">
-                {buttonText}
-              </span>
-            </a>
+              DISCOVER OUR STORY
+            </Button>
           </div>
         </div>
 
