@@ -55,7 +55,7 @@ export default function Header() {
 
         {/* Center: Navigation Pill */}
         <div className="hidden md:flex items-center relative z-10">
-          <nav className="bg-white/95 border border-black/[0.06] shadow-[0_4px_20px_rgba(0,0,0,0.06)] rounded-full px-7 py-3 flex items-center gap-3 transition-transform duration-200 hover:scale-[1.01]">
+          <nav className="bg-white/95 border border-black/[0.06] shadow-[0_4px_20px_rgba(0,0,0,0.06)] rounded-full px-5 py-3 flex items-center gap-3 transition-transform duration-200 hover:scale-[1.01]">
             <a
               href="#work"
               className="font-montserrat font-medium text-[11px] leading-[16.5px] tracking-[1.54px] text-[#404040] hover:text-black uppercase transition-colors"

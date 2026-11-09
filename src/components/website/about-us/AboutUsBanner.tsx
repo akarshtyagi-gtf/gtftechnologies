@@ -69,7 +69,7 @@ export default function AboutUsBanner({ data }: AboutUsBannerProps) {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full bg-[#F8F6F0] overflow-hidden select-none pt-20 sm:pt-22 lg:pt-20 xl:pt-22 pb-20 sm:pb-24 lg:pb-28 xl:pb-32 px-4 sm:px-6 lg:px-8"
+      className="relative w-full bg-[#F8F6F0] overflow-hidden select-none pt-20 sm:pt-22 lg:pt-20 xl:pt-22 pb-20 sm:pb-24 lg:pb-28 xl:pb-32 container-padding"
     >
       {/* Background Texture Overlay: Exact match across GTF website */}
       <div className="absolute inset-0 z-0 pointer-events-none select-none">
@@ -98,7 +98,7 @@ export default function AboutUsBanner({ data }: AboutUsBannerProps) {
         </ContentReveal>
 
         {/* 2. Main Heading: About Us (CharBlurDissolveHeading) */}
-        <div className="text-center mb-6 sm:mb-8 lg:mb-0">
+        <div className="text-center mb-4 sm:mb-6 lg:mb-2">
           <CharBlurDissolveHeading
             text={heading}
             as="h1"
@@ -125,15 +125,43 @@ export default function AboutUsBanner({ data }: AboutUsBannerProps) {
           </div>
         </div>
 
-        {/* 4. Editorial Statement Paragraph: Voyage font 400, #151415 written letter-by-letter, fully responsive and uncut */}
-        <div className="w-full max-w-[1140px] mx-auto mt-6 sm:mt-8 lg:mt-6 xl:mt-8 px-4 sm:px-6">
-          <LetterByLetterText
-            text={statement}
-            as="p"
-            start="top 80%"
-            stagger={0.016}
-            className="font-voyage font-normal text-[#151415] text-xl sm:text-2xl md:text-3xl lg:text-[38px] xl:text-[44px] 2xl:text-[48px] leading-[1.32] sm:leading-[1.3] md:leading-[1.28] tracking-tight text-center py-1 overflow-visible"
-          />
+        {/* 4. Editorial Statement Paragraph: Exact 3 lines as per Figma, aligned with container padding */}
+        <div className="w-full mt-6 sm:mt-8 lg:mt-6 xl:mt-8 space-y-0">
+          {/* Line 1: Starting point matches founder image left side, ends at right container padding with normal tracking */}
+          <div className="w-full text-left pl-4 sm:pl-8 md:pl-[calc(50%-380px)] lg:pl-[calc(50%-400px)] xl:pl-[calc(50%-420px)] 2xl:pl-[calc(50%-470px)]">
+            <LetterByLetterText
+              text="GTF Technologies is a performance-driven digital media"
+              as="div"
+              start="top 80%"
+              delay={0}
+              stagger={0.007}
+              className="font-voyage font-normal text-[#151415] text-xl sm:text-2xl md:text-[28px] lg:text-[38px] xl:text-[46px] 2xl:text-[50px] leading-[1.2] tracking-normal m-0 p-0 overflow-visible whitespace-normal md:whitespace-nowrap"
+            />
+          </div>
+
+          {/* Line 2: Matches container padding with tight spacing */}
+          <div className="w-full text-left pl-0 ">
+            <LetterByLetterText
+              text="agency with 17+ years of expertise, connecting brands with"
+              as="div"
+              start="top 80%"
+              delay={0.15}
+              stagger={0.007}
+              className="font-voyage font-normal text-[#151415] text-xl sm:text-2xl md:text-[28px] lg:text-[38px] xl:text-[46px] 2xl:text-[50px] leading-[1] tracking-normal m-0 p-0 overflow-visible whitespace-normal md:whitespace-nowrap"
+            />
+          </div>
+
+          {/* Line 3: Matches container padding with tight spacing */}
+          <div className="w-full text-left pl-0">
+            <LetterByLetterText
+              text="strategic marketing and creative solutions."
+              as="div"
+              start="top 80%"
+              delay={0.3}
+              stagger={0.007}
+              className="font-voyage font-normal text-[#151415] text-xl sm:text-2xl md:text-[28px] lg:text-[38px] xl:text-[46px] 2xl:text-[50px] leading-[1] tracking-normal m-0 p-0 overflow-visible"
+            />
+          </div>
         </div>
       </div>
     </section>

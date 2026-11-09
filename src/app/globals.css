@@ -194,3 +194,42 @@ html.lenis body {
 .animate-slider-down:hover {
   animation-play-state: paused;
 }
+
+/* =============================================================================
+   Reusable Fixed Background Texture (Safari & iOS Zero-Scroll-Jitter Compatible)
+   Usage: Add 'page-fixed-texture' or 'bg-fixed-texture' to any page <main> or <body>
+   ============================================================================= */
+.page-fixed-texture,
+.bg-fixed-texture {
+  position: relative;
+  background-color: #F8F6F0;
+  min-height: 100vh;
+}
+
+.page-fixed-texture::before,
+.bg-fixed-texture::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  /* Dynamic viewport height for modern iOS Safari & Android mobile address bars */
+  height: 100dvh;
+  background-image: url("/images/texture/bg-texture.png");
+  background-repeat: repeat;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.85;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  z-index: 1;
+  /* Hardware acceleration for ultra-smooth fixed presentation on Safari & WebKit */
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  will-change: transform;
+}

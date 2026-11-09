@@ -112,10 +112,12 @@ export default function LetterByLetterText({
   // Split into words first to preserve natural line wrapping and prevent mid-word breaks
   const words = text.split(" ");
 
+  const hasLeading = className.includes("leading-");
+
   return (
     <Component
       ref={containerRef as any}
-      className={`leading-relaxed select-none [perspective:1000px] ${className}`}
+      className={`${hasLeading ? "" : "leading-relaxed"} select-none [perspective:1000px] ${className}`}
     >
       {words.map((word, wIdx) => (
         <span
