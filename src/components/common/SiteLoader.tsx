@@ -9,6 +9,7 @@ const useIsomorphicLayoutEffect =
 export default function SiteLoader() {
   const [visible, setVisible] = useState(true);
   const loaderRef = useRef<HTMLDivElement>(null);
+  const textureRef = useRef<HTMLDivElement>(null);
   const logoWrapRef = useRef<HTMLDivElement>(null);
   const barRef = useRef<HTMLDivElement>(null);
 
@@ -47,36 +48,60 @@ export default function SiteLoader() {
         },
       });
 
+      exitTl.set(loader, { pointerEvents: "none" }, 0);
+
       if (barRef.current) {
         exitTl.to(
           barRef.current,
-          { scaleX: 1, duration: 0.25, ease: "power2.out" },
+          { scaleX: 1, duration: 0.24, ease: "power2.out" },
           0
         );
+        if (barRef.current.parentElement) {
+          exitTl.to(
+            barRef.current.parentElement,
+            { y: -22, opacity: 0, duration: 0.45, ease: "power2.out" },
+            0.08
+          );
+        }
       }
 
       if (logoWrapRef.current) {
         exitTl.to(
           logoWrapRef.current,
           {
-            y: -24,
+            y: -48,
+            scale: 0.965,
             opacity: 0,
-            filter: "blur(6px)",
-            duration: 0.42,
-            ease: "power2.in",
+            duration: 0.65,
+            ease: "power3.out",
           },
           0.08
+        );
+      }
+
+      if (textureRef.current) {
+        exitTl.to(
+          textureRef.current,
+          {
+            y: -18,
+            scale: 1.04,
+            opacity: 0,
+            duration: 0.85,
+            ease: "power2.inOut",
+          },
+          0.12
         );
       }
 
       exitTl.to(
         loader,
         {
-          clipPath: "inset(0% 0% 100% 0%)",
-          duration: 0.7,
-          ease: "power4.inOut",
+          y: -32,
+          opacity: 0,
+          duration: 0.85,
+          ease: "power3.inOut",
         },
-        0.22
+        0.16
       );
     };
 
@@ -245,10 +270,10 @@ export default function SiteLoader() {
       ref={loaderRef}
       aria-label="Loading GTF Technologies"
       className="fixed inset-0 z-[100] bg-[#F8F6F0] flex flex-col items-center justify-center px-6 select-none overflow-hidden"
-      style={{ clipPath: "inset(0% 0% 0% 0%)" }}
     >
       {/* Subtle Paper Texture Background */}
       <div
+        ref={textureRef}
         className="absolute inset-0 pointer-events-none opacity-85 mix-blend-multiply bg-cover bg-center"
         style={{ backgroundImage: 'url("/images/texture/bg-texture.png")' }}
       />
