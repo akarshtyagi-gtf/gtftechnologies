@@ -121,19 +121,9 @@ export default function OurTrust({ data }: OurTrustProps) {
     <section
       id="trust"
       ref={sectionRef}
-      className="relative w-full min-h-[480px] sm:min-h-[510px] lg:min-h-[540px] xl:min-h-[560px] bg-[#F8F6F0] overflow-hidden pt-14 sm:pt-16 lg:pt-28 pb-8 sm:pb-20 flex flex-col justify-start"
+      className="relative w-full min-h-[480px] sm:min-h-[510px] lg:min-h-[540px] xl:min-h-[560px] bg-transparent overflow-hidden pt-14 sm:pt-16 lg:pt-28 pb-8 sm:pb-20 flex flex-col justify-start"
     >
-      {/* 1. Background Texture */}
-      <div className="absolute inset-0 z-0 pointer-events-none select-none">
-        <Image
-          src="/images/texture/bg-texture.png"
-          alt="Background Texture"
-          fill
-          className="object-cover object-center opacity-85 mix-blend-multiply"
-        />
-      </div>
-
-      {/* 2. Content: left text + right 3x4 pill grid */}
+      {/* Content: left text + right 3x4 pill grid */}
       <div className="relative z-10 w-full max-w-[1440px] 2xl:max-w-[1560px] mx-auto container-padding">
         <div className="flex flex-col lg:flex-row lg:items-stretch gap-10 lg:gap-10">
 
@@ -192,17 +182,17 @@ export default function OurTrust({ data }: OurTrustProps) {
                 ref={(el) => {
                   pillRefs.current[idx] = el;
                 }}
-                className="w-full max-w-[174px] will-change-transform"
+                className="w-full max-w-[174px]  will-change-transform"
                 style={{ opacity: 0 }} // hidden until its turn (GSAP shows it)
               >
-                <div className="relative w-full h-[48px] sm:h-[52px] lg:h-[56px] xl:h-[58px] rounded-full bg-white shadow-[0_4px_16px_-3px_rgba(0,0,0,0.08),0_1px_4px_-1px_rgba(0,0,0,0.03)] border border-black/[0.04] flex items-center justify-center px-3 sm:px-4 py-1.5 overflow-hidden">
+                <div className="relative w-full h-[48px] sm:h-[52px] lg:h-[56px] xl:h-[62px] rounded-full bg-white shadow-[0_4px_16px_-3px_rgba(0,0,0,0.08),0_1px_4px_-1px_rgba(0,0,0,0.03)] border border-black/[0.04] flex items-center justify-center px-2 py-0.5 overflow-hidden">
                   <div className="relative w-full h-full flex items-center justify-center">
                     <Image
                       src={item.image}
                       alt={item.name}
                       width={140}
                       height={48}
-                      className="max-h-[36px] sm:max-h-[40px] lg:max-h-[85px] w-auto max-w-[110px] sm:max-w-[128px] lg:max-w-[190px] object-contain select-none"
+                      className="w-full h-full object-contain scale-[1.30] select-none"
                     />
                   </div>
                 </div>

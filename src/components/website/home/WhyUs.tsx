@@ -244,19 +244,8 @@ export default function WhyUs({ data }: WhyUsProps) {
     <section
       id="why-us"
       ref={sectionRef}
-      className="relative w-full bg-[#F8F6F0] overflow-hidden select-none pt-10 sm:pt-12 lg:pt-14 xl:pt-16 pb-12 sm:pb-14 lg:pb-16 xl:pb-20"
+      className="relative w-full bg-transparent overflow-hidden select-none pt-10 sm:pt-12 lg:pt-14 xl:pt-16 pb-12 sm:pb-14 lg:pb-16 xl:pb-20"
     >
-      {/* Background Texture Overlay */}
-      <div className="absolute inset-0 z-0 pointer-events-none select-none">
-        <Image
-          src="/images/texture/bg-texture.png"
-          alt="Texture"
-          fill
-          sizes="100vw"
-          className="object-cover object-center opacity-85 mix-blend-multiply"
-        />
-      </div>
-
       <div className="relative z-10 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto container-padding flex flex-col items-center justify-center">
         {/* ============================================================== */}
         {/* HEADER: "Why Us" in Voyage + Subheading (Play Once Reveal)     */}

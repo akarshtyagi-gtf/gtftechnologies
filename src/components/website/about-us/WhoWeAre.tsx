@@ -643,20 +643,8 @@ export default function WhoWeAre({ data }: WhoWeAreProps) {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full min-h-screen lg:h-screen bg-[#F8F6F0] overflow-hidden select-none flex flex-col justify-between pt-[74px] sm:pt-[78px] lg:pt-[76px] xl:pt-[80px] 2xl:pt-[92px] pb-3 sm:pb-4 lg:pb-3 xl:pb-4 2xl:pb-8 container-padding"
+      className="relative w-full min-h-screen lg:h-screen bg-transparent overflow-hidden select-none flex flex-col justify-between pt-[74px] sm:pt-[78px] lg:pt-[76px] xl:pt-[80px] 2xl:pt-[92px] pb-3 sm:pb-4 lg:pb-3 xl:pb-4 2xl:pb-8 container-padding"
     >
-      {/* Background Texture Overlay: Continuous across entire section */}
-      <div className="absolute inset-0 z-0 pointer-events-none select-none">
-        <Image
-          src="/images/texture/bg-texture.png"
-          alt="Texture"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-center opacity-85 mix-blend-multiply"
-        />
-      </div>
-
       <div className="relative z-10 w-full max-w-[1440px] 2xl:max-w-[1560px] mx-auto flex-1 flex flex-col items-center justify-between min-h-0">
         {/* ========================================================= */}
         {/* SECTION HEADER: Pinned at top above Mission, Vision, Values*/}

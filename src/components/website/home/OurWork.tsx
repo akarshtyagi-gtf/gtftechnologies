@@ -403,18 +403,8 @@ export default function OurWork({ data }: OurWorkProps) {
     <section
       id="work"
       ref={sectionRef}
-      className="relative w-full bg-[#F8F6F0] overflow-hidden"
+      className="relative w-full bg-transparent overflow-hidden"
     >
-      {/* Background Texture matching Hero */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <Image
-          src="/images/texture/bg-texture.png"
-          alt="Background Texture"
-          fill
-          className="object-cover object-center opacity-85 mix-blend-multiply"
-        />
-      </div>
-
       {/* Pinned Viewport Container - Exactly covers 100vh with both Heading and Cards WITHOUT cutting */}
       <div
         ref={pinContainerRef}
@@ -451,12 +441,12 @@ export default function OurWork({ data }: OurWorkProps) {
           {/* Heading & Subheading Area - Centered and Grand with breathing space */}
           <div
             ref={headingWrapperRef}
-            className="relative z-20 flex flex-col items-center justify-center text-center mt-1 sm:mt-2 lg:mt-2.5 mb-auto will-change-[transform,opacity,filter] [perspective:1200px] [transform-style:preserve-3d]"
+            className="relative z-20 flex flex-col items-center justify-center text-center mt-1 sm:mt-2 lg:mt-2.5 mb-auto  "
           >
             {/* Section Heading: "Explore Work" in Voyage Font (Majestic Grand Scale) */}
             <SectionHeading
               as="h2"
-              className="text-[58px] sm:text-[76px] md:text-[98px] lg:text-[122px] xl:text-[142px] 2xl:text-[164px] leading-[0.86] tracking-normal text-[#121212] select-none text-center [transform-style:preserve-3d]"
+              className="text-[58px] sm:text-[76px] md:text-[98px] lg:text-[122px] xl:text-[142px] 2xl:text-[164px] leading-[0.86] tracking-normal text-[#121212] select-none text-center mt-8"
             >
               {/* Line 1: Explore */}
               <div className="block leading-[0.84] overflow-visible">

@@ -769,26 +769,14 @@ export default function OurServices({ data }: OurServicesProps) {
     <section
       id="services"
       ref={sectionRef}
-      className="relative w-full bg-[#F8F6F0] overflow-hidden select-none"
+      className="relative w-full bg-transparent overflow-hidden select-none"
     >
-      {/* 3. Pinned Viewport Container (True vertical center on desktop, proper clearance on mobile) */}
+      {/* Pinned Viewport Container (True vertical center on desktop, proper clearance on mobile) */}
       <div
         ref={pinContainerRef}
-        className="relative w-full min-h-screen lg:h-screen lg:max-h-screen overflow-hidden flex flex-col justify-center items-center container-padding pt-24 pb-12 sm:pt-28 sm:pb-14 lg:py-0 bg-[#F8F6F0]"
+        className="relative w-full min-h-screen lg:h-screen lg:max-h-screen overflow-hidden flex flex-col justify-center items-center container-padding pt-24 pb-12 sm:pt-28 sm:pb-14 lg:py-0 bg-transparent"
       >
-        {/* 1. Static Non-Scrollable Background Texture pinned inside container */}
-        <div className="absolute inset-0 z-0 pointer-events-none select-none">
-          <Image
-            src="/images/texture/bg-texture.png"
-            alt="Background Texture"
-            fill
-            sizes="100vw"
-            className="object-cover object-center opacity-85 mix-blend-multiply"
-            loading="lazy"
-          />
-        </div>
-
-        {/* 2. Concentric Ambient Circle Background Arc */}
+        {/* Concentric Ambient Circle Background Arc */}
         <div
           ref={ambientCircleRef}
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[720px] h-[720px] xl:w-[940px] xl:h-[940px] 2xl:w-[1100px] 2xl:h-[1100px] pointer-events-none z-0 select-none opacity-20 hidden md:block"

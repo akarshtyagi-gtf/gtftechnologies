@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import Image from "next/image";
 import { gsap, ScrollTrigger, splitTextChars } from "@/utils/gsap";
 import { Paragraph } from "@/components/common/Typography";
 import ContentReveal from "@/components/animations/ContentReveal";
@@ -166,7 +165,7 @@ export default function DrivenByResults({ data }: DrivenByResultsProps) {
     <section
       id="driven-by-results"
       ref={sectionRef}
-      className="relative w-full bg-[#F8F6F0] overflow-hidden select-none flex items-center py-14 sm:py-16 md:py-0 md:aspect-[16/9] md:max-h-[850px] 2xl:max-h-[920px]"
+      className="relative z-[2] w-full bg-[#F8F6F0] overflow-hidden select-none flex items-center py-14 sm:py-16 md:py-0 md:aspect-[16/9] md:max-h-[850px] 2xl:max-h-[920px]"
     >
       {/* ============================================================== */}
       {/* 1. BACKGROUND 3D VIDEO (16:9 aspect ratio, Autoplay & Lazy)    */}
@@ -184,23 +183,6 @@ export default function DrivenByResults({ data }: DrivenByResultsProps) {
           className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none will-change-transform"
           aria-hidden="true"
         />
-
-        {/* Brand Ambient Texture Overlay */}
-        {/* <div className="absolute inset-0 pointer-events-none opacity-20 mix-blend-multiply">
-          <Image
-            src="/images/texture/bg-texture.png"
-            alt="Texture"
-            fill
-            sizes="100vw"
-            className="object-cover object-center"
-          />
-        </div> */}
-
-        {/* Soft Left Legibility Gradient Scrim */}
-        {/* <div
-          className="absolute inset-0 bg-gradient-to-r from-[#F8F6F0]/85 via-[#F8F6F0]/35 to-transparent lg:from-[#F8F6F0]/50 lg:via-[#F8F6F0]/10 lg:to-transparent pointer-events-none"
-          aria-hidden="true"
-        /> */}
       </div>
 
       {/* ============================================================== */}

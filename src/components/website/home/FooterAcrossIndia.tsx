@@ -388,19 +388,8 @@ export default function FooterAcrossIndia({ data }: FooterAcrossIndiaProps) {
     <footer
       id="across-india"
       ref={sectionRef}
-      className="relative w-full h-screen bg-[#F8F6F0] overflow-hidden select-none flex flex-col justify-between"
+      className="relative w-full h-screen bg-transparent overflow-hidden select-none flex flex-col justify-between"
     >
-      {/* Background Texture Overlay: Exact match with other sections */}
-      <div className="absolute inset-0 z-0 pointer-events-none select-none">
-        <Image
-          src="/images/texture/bg-texture.png"
-          alt="Texture"
-          fill
-          sizes="100vw"
-          className="object-cover object-center opacity-85 mix-blend-multiply"
-        />
-      </div>
-
       {/* Embedded CSS animations for orbiting glow on badges and cards */}
       <style>{`
         @keyframes pill-subtle-glow-orbit {

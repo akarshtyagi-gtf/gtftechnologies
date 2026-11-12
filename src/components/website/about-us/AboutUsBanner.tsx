@@ -69,20 +69,8 @@ export default function AboutUsBanner({ data }: AboutUsBannerProps) {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full bg-[#F8F6F0] overflow-hidden select-none pt-20 sm:pt-22 lg:pt-20 xl:pt-22 pb-20 sm:pb-24 lg:pb-28 xl:pb-32 container-padding"
+      className="relative w-full bg-transparent overflow-hidden select-none pt-20 sm:pt-22 lg:pt-20 xl:pt-22 pb-20 sm:pb-24 lg:pb-28 xl:pb-32 container-padding"
     >
-      {/* Background Texture Overlay: Exact match across GTF website */}
-      <div className="absolute inset-0 z-0 pointer-events-none select-none">
-        <Image
-          src="/images/texture/bg-texture.png"
-          alt="Texture"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-center opacity-85 mix-blend-multiply"
-        />
-      </div>
-
       <div className="relative z-10 max-w-[1440px] 2xl:max-w-[1560px] mx-auto flex flex-col items-center">
         {/* 1. Subheading / Eyebrow: WHO WE ARE (ContentReveal) */}
         <ContentReveal

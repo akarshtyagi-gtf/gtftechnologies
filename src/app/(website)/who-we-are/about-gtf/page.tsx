@@ -59,7 +59,7 @@ const whoWeAreContent: WhoWeAreData = {
 
 export default function AboutGtfPage() {
   return (
-    <main className="w-full min-h-screen bg-[#F8F6F0]">
+    <main className="w-full min-h-screen bg-transparent">
       <AboutUsBanner data={aboutUsContent} />
       <WhoWeAre data={whoWeAreContent} />
     </main>

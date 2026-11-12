@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import SmoothScroll from "@/components/animations/SmoothScroll";
 import SvgLineCursor from "@/components/animations/SvgLineCursor";
-import Header from "@/components/Header";
+import Header from "@/components/common/Header";
+import SiteLoader from "@/components/common/SiteLoader";
 import FooterAcrossIndia from "@/components/website/home/FooterAcrossIndia";
 import type { FooterAcrossIndiaData } from "@/types/home";
 import "./globals.css";
@@ -82,7 +83,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={montserrat.variable}>
-      <body className="antialiased bg-[#F8F6F0]">
+      <body className="antialiased bg-[#F8F6F0] page-fixed-texture">
+        <SiteLoader />
         <SmoothScroll>
           <SvgLineCursor
             strokeColor="#979797ff"

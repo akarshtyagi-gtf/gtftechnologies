@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import Image from "next/image";
 import { gsap, ScrollTrigger, splitTextChars } from "@/utils/gsap";
 import Button from "@/components/common/Button";
 import {
@@ -192,25 +191,10 @@ export default function LetsTalk({ data }: LetsTalkProps) {
     <section
       id="lets-talk"
       ref={sectionRef}
-      className="relative w-full min-h-[700px] lg:min-h-[820px] xl:min-h-[900px] bg-[#F5EFE6] overflow-hidden select-none flex flex-col justify-center py-16 sm:py-20 md:py-24 lg:py-28 xl:py-32"
+      className="relative w-full min-h-[700px] lg:min-h-[820px] xl:min-h-[900px] bg-transparent overflow-hidden select-none flex flex-col justify-center py-16 sm:py-20 md:py-24 lg:py-28 xl:py-32"
     >
       {/* ============================================================== */}
-      {/* 1. BACKGROUND TEXTURE & WARM LIGHT SILK GRADIENT               */}
-      {/* ============================================================== */}
-      <div className="absolute inset-0 z-0 pointer-events-none select-none">
-        {/* Subtle diagonal warm fold lighting matching Figma image texture */}
-        <div className="absolute inset-0 bg-gradient-to-tr from-[#ECE5D8]/90 via-[#F5EFE6] to-[#FAF6EE] opacity-90" />
-        <Image
-          src="/images/texture/bg-texture.png"
-          alt="Texture"
-          fill
-          sizes="100vw"
-          className="object-cover object-center opacity-80 mix-blend-multiply"
-        />
-      </div>
-
-      {/* ============================================================== */}
-      {/* 2. MAIN CENTERED EDITORIAL CONTAINER                           */}
+      {/* 1. MAIN CENTERED EDITORIAL CONTAINER                           */}
       {/* ============================================================== */}
       <div className="relative z-10 w-full max-w-[760px] md:max-w-[840px] lg:max-w-[920px] xl:max-w-[980px] mx-auto px-5 sm:px-8 md:px-10 lg:px-12 flex flex-col items-center">
         

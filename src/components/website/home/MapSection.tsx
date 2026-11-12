@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import Image from "next/image";
 import { gsap, ScrollTrigger, splitTextChars } from "@/utils/gsap";
 import { Paragraph } from "@/components/common/Typography";
 import {
@@ -326,7 +325,7 @@ export default function MapSection({ data }: MapSectionProps) {
     <section
       id="map-section"
       ref={sectionRef}
-      className="relative w-full h-screen min-h-[640px] bg-[#F8F6F0] overflow-hidden select-none flex items-center justify-start"
+      className="relative w-full h-screen min-h-[640px] bg-transparent overflow-hidden select-none flex items-center justify-start"
     >
       {/* ============================================================== */}
       {/* 1. BACKGROUND: canvas frame sequence (scroll scrubbed)         */}
@@ -337,17 +336,6 @@ export default function MapSection({ data }: MapSectionProps) {
           className="absolute inset-0 block w-full h-full opacity-0 transition-opacity duration-500"
           aria-hidden="true"
         />
-
-        {/* Ambient background texture overlay */}
-        <div className="absolute inset-0 pointer-events-none opacity-30 mix-blend-multiply">
-          <Image
-            src="/images/texture/bg-texture.png"
-            alt="Texture"
-            fill
-            sizes="100vw"
-            className="object-cover object-center"
-          />
-        </div>
       </div>
 
       {/* Minimal moving glow animation for location badge pills */}

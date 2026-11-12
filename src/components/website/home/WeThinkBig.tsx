@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import Image from "next/image";
 import { gsap, ScrollTrigger, splitTextChars } from "@/utils/gsap";
 import { Paragraph } from "@/components/common/Typography";
 import {
@@ -315,19 +314,8 @@ export default function WeThinkBig({ data }: WeThinkBigProps) {
     <section
       id="we-think-big"
       ref={sectionRef}
-      className="relative w-full bg-[#F8F6F0] overflow-hidden select-none py-16 sm:py-20 lg:py-24 xl:py-28"
+      className="relative w-full bg-transparent overflow-hidden select-none py-16 sm:py-20 lg:py-24 xl:py-28"
     >
-      {/* Background Texture Overlay */}
-      <div className="absolute inset-0 z-0 pointer-events-none select-none">
-        <Image
-          src="/images/texture/bg-texture.png"
-          alt="Texture"
-          fill
-          sizes="100vw"
-          className="object-cover object-center opacity-85 mix-blend-multiply"
-        />
-      </div>
-
       <div className="relative z-10 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto container-padding flex flex-col lg:flex-row lg:items-center justify-between gap-12 lg:gap-8 xl:gap-12">
         {/* ============================================================== */}
         {/* LEFT COLUMN: Headings ("We Think Big."), Description & CTA     */}

@@ -418,7 +418,7 @@ const letsTalkData: LetsTalkData = {
 
 export default function Home() {
   return (
-    <main id="home" className="min-h-screen bg-[#F8F6F0]">
+    <main id="home" className="min-h-screen bg-transparent">
       <Banner data={bannerData} />
       <OurWork data={ourWorkData} />
       <OurTrust data={ourTrustData} />

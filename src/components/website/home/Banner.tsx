@@ -28,20 +28,9 @@ export default function Banner({ data }: BannerProps) {
   return (
     <section
       id="hero"
-      className="relative w-full h-screen min-h-screen overflow-hidden flex flex-col justify-between container-padding pt-24 sm:pt-28 lg:pt-32 pb-8 bg-[#F8F6F0]"
+      className="relative w-full h-screen min-h-screen overflow-hidden flex flex-col justify-between container-padding pt-24 sm:pt-28 lg:pt-32 pb-8 bg-transparent"
     >
-      {/* 1. Background Texture */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <Image
-          src="/images/texture/bg-texture.png"
-          alt="Background Texture"
-          fill
-          className="object-cover object-center opacity-85 mix-blend-multiply"
-          priority
-        />
-      </div>
-
-      {/* 2. Concentric Ambient Circles */}
+      {/* 1. Concentric Ambient Circles */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden hidden md:block">
         <div className="absolute top-[-5%] left-[8%] xl:left-[14%] 2xl:left-[18%] w-[1350px] h-[1350px] transform rotate-[28deg] origin-center">
           {/* Solid Circle */}

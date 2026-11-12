@@ -133,19 +133,8 @@ export default function ConnectUs({ data }: ConnectUsProps) {
     <section
       id="connect-us"
       ref={sectionRef}
-      className="relative w-full bg-[#F8F6F0] overflow-hidden select-none py-12 sm:py-16 lg:py-20 xl:py-24"
+      className="relative w-full bg-transparent overflow-hidden select-none py-12 sm:py-16 lg:py-20 xl:py-24"
     >
-      {/* Background Texture Overlay */}
-      <div className="absolute inset-0 z-0 pointer-events-none select-none">
-        <Image
-          src="/images/texture/bg-texture.png"
-          alt="Texture"
-          fill
-          sizes="100vw"
-          className="object-cover object-center opacity-85 mix-blend-multiply"
-        />
-      </div>
-
       {/* Main Container */}
       <div className="relative z-10 w-full max-w-[1440px] xl:max-w-[1560px] 2xl:max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
         {/* Rounded Image Card Banner */}
