@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { gsap, ScrollTrigger, splitTextChars } from "@/utils/gsap";
+import { setHeaderTheme } from "@/utils/headerTheme";
 
 export interface ResearchStep {
   step: string;
@@ -139,7 +140,14 @@ export default function ResearchTimelineSection() {
       fastScrollEnd: true,
       preventOverlaps: true,
       invalidateOnRefresh: true,
+      onEnter: () => setHeaderTheme("dark"),
+      onEnterBack: () => setHeaderTheme("dark"),
+      onLeaveBack: () => setHeaderTheme("light"),
       onUpdate: (self) => {
+        // Continuous lock: ensure white logo remains active on every frame as user scrolls through steps
+        if (self.isActive) {
+          setHeaderTheme("dark");
+        }
         const p = self.progress;
 
         // 1. Continuous Circular Progress: Fills full 100% circle across the 4 steps
@@ -379,7 +387,12 @@ export default function ResearchTimelineSection() {
 
     ScrollTrigger.refresh();
 
+    if (st.isActive) {
+      setHeaderTheme("dark");
+    }
+
     return () => {
+      setHeaderTheme("light");
       st.kill();
     };
   }, [CIRCUMFERENCE]);
@@ -389,6 +402,7 @@ export default function ResearchTimelineSection() {
   return (
     <section
       ref={sectionRef}
+      data-header-theme="dark"
       className="relative w-full h-screen min-h-screen overflow-hidden select-none bg-[#11100F] text-white will-change-transform"
       style={{ contain: "paint" }}
     >

@@ -3,6 +3,7 @@
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import { gsap, ScrollTrigger, splitTextChars } from "@/utils/gsap";
+import { setHeaderTheme } from "@/utils/headerTheme";
 import {
   charBlurInitialVars,
   charBlurAnimateVars,
@@ -124,9 +125,25 @@ export default function ConnectUs({ data }: ConnectUsProps) {
           },
         });
       }
+
+      // Dynamic header logo theme: White logo when dark card is under header, dark logo when outside
+      if (cardRef.current) {
+        ScrollTrigger.create({
+          trigger: cardRef.current,
+          start: "top 75px",
+          end: "bottom 25px",
+          onEnter: () => setHeaderTheme("dark"),
+          onEnterBack: () => setHeaderTheme("dark"),
+          onLeave: () => setHeaderTheme("light"),
+          onLeaveBack: () => setHeaderTheme("light"),
+        });
+      }
     }, sectionRef);
 
-    return () => ctx.revert();
+    return () => {
+      setHeaderTheme("light");
+      ctx.revert();
+    };
   }, []);
 
   return (
@@ -140,6 +157,7 @@ export default function ConnectUs({ data }: ConnectUsProps) {
         {/* Rounded Image Card Banner */}
         <div
           ref={cardRef}
+          data-header-theme="dark"
           className="relative w-full aspect-[16/9] min-h-[360px] sm:min-h-[460px] lg:min-h-[560px] xl:min-h-[640px] rounded-[20px] sm:rounded-[28px] lg:rounded-[36px] overflow-hidden shadow-[0_16px_50px_-15px_rgba(0,0,0,0.18)] will-change-[transform,opacity]"
         >
           {/* Inner Image with subtle Parallax */}

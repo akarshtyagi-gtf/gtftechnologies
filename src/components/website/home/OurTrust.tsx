@@ -6,6 +6,7 @@ import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import { gsap, ScrollTrigger, splitTextChars } from "@/utils/gsap";
 import ContentReveal from "@/components/animations/ContentReveal";
+import { setHeaderTheme } from "@/utils/headerTheme";
 import type { OurTrustData } from "@/types/home";
 
 interface OurTrustProps {
@@ -108,6 +109,17 @@ export default function OurTrust({ data }: OurTrustProps) {
         start: "top 75%",
         once: true,
         onEnter: () => tl.play(),
+      });
+
+      // 6) Ensure header logo is in black theme when OurTrust arrives under header (<= 75px),
+      // and returns to white theme when scrolling back up into OurWork's dark slider
+      ScrollTrigger.create({
+        trigger: section,
+        start: "top 75px",
+        end: "bottom top",
+        onEnter: () => setHeaderTheme("light"),
+        onEnterBack: () => setHeaderTheme("light"),
+        onLeaveBack: () => setHeaderTheme("dark"),
       });
     }, section);
 

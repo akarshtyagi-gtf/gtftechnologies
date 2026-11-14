@@ -5,6 +5,7 @@
   import * as THREE from "three";
   import { Canvas, useFrame, useThree } from "@react-three/fiber";
   import { gsap, ScrollTrigger } from "@/utils/gsap";
+  import { setHeaderTheme } from "@/utils/headerTheme";
 
   // =============================================================================
   // PORTAL OVERVIEW & SOCIAL PLATFORM LINKS
@@ -961,10 +962,22 @@
         },
       });
 
+      // Ensure header logo switches to black theme when CardCarousel arrives under header (<= 75px),
+      // and returns to white theme when scrolling back up into ResearchTimelineSection's dark view
+      const themeSt = ScrollTrigger.create({
+        trigger: sectionEl,
+        start: "top 75px",
+        end: "bottom top",
+        onEnter: () => setHeaderTheme("light"),
+        onEnterBack: () => setHeaderTheme("light"),
+        onLeaveBack: () => setHeaderTheme("dark"),
+      });
+
       ScrollTrigger.refresh();
 
       return () => {
         st.kill();
+        themeSt.kill();
       };
     }, [mounted, isPortalOpen]);
 

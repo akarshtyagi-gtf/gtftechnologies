@@ -5,6 +5,7 @@ import Image from "next/image";
 import { gsap, ScrollTrigger, splitTextChars } from "@/utils/gsap";
 import { SectionHeading, SubHeading } from "@/components/common/Typography";
 import { WorkCenterSlider } from "./WorkCenterSlider";
+import { setHeaderTheme } from "@/utils/headerTheme";
 import type { OurWorkData, WorkCard } from "@/types/home";
 
 interface OurWorkProps {
@@ -146,6 +147,26 @@ export default function OurWork({ data }: OurWorkProps) {
               scrub: 1.2,
               anticipatePin: 1,
               invalidateOnRefresh: true,
+              onEnter: () => {
+                setHeaderTheme("light");
+              },
+              onLeaveBack: () => {
+                // Scrolled above Our Work -> light theme (black logo)
+                setHeaderTheme("light");
+              },
+              onEnterBack: () => {
+                // Re-entering from bottom into expanded slider
+                const isFullscreen = scrollTl.time() >= 0.95;
+                setHeaderTheme(isFullscreen ? "dark" : "light");
+              },
+              onUpdate: (self) => {
+                if (self.isActive) {
+                  // Stage 1 (time < 0.95): Light background -> Black logo
+                  // Stage 2 (time >= 0.95): Fullscreen dark slider -> White logo
+                  const isFullscreen = scrollTl.time() >= 0.95;
+                  setHeaderTheme(isFullscreen ? "dark" : "light");
+                }
+              },
             },
           });
 
@@ -346,7 +367,13 @@ export default function OurWork({ data }: OurWorkProps) {
       });
     }, sectionRef);
 
-    return () => ctx.revert();
+    return () => {
+      if (sliderWrapperRef.current) {
+        sliderWrapperRef.current.removeAttribute("data-header-theme");
+      }
+      setHeaderTheme("light");
+      ctx.revert();
+    };
   }, []);
 
   const renderCharSpan = (
