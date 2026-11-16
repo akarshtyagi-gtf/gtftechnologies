@@ -312,8 +312,11 @@ export function WorkCenterSlider({
   return (
     <div
       ref={containerRef}
-      className={`work-card-wrapper group relative w-full ${isFullscreen ? "h-full rounded-none" : "aspect-[906/373] rounded-[14px] lg:rounded-[18px] 2xl:rounded-[20px]"
-        } overflow-hidden shadow-[0_6px_20px_-4px_rgba(0,0,0,0.1)] transition-all duration-400 select-none ${className}`}
+      className={`work-card-wrapper group relative w-full ${
+        isFullscreen
+          ? "h-full rounded-none"
+          : "h-[440px] xs:h-[480px] sm:h-[520px] md:h-[560px] lg:h-auto lg:aspect-[906/373] rounded-[14px] lg:rounded-[18px] 2xl:rounded-[20px]"
+      } overflow-hidden shadow-[0_6px_20px_-4px_rgba(0,0,0,0.1)] transition-all duration-400 select-none ${className}`}
     >
       {/* ALL SLIDES PERSISTENTLY RENDERED IN DOM: Eliminates ANY millisecond image blink */}
       {slides.map((slide, idx) => (

@@ -7,6 +7,7 @@ import { SubHeading } from "@/components/common/Typography";
 import ContentReveal from "@/components/animations/ContentReveal";
 import CharBlurDissolveHeading from "@/components/animations/CharBlurDissolveHeading";
 import ParagraphLineReveal from "@/components/animations/ParagraphLineReveal";
+import { cn } from "@/utils/cn";
 
 export interface CommonBannerProps {
   eyebrow?: string;
@@ -85,16 +86,19 @@ export default function CommonBanner({
   return (
     <section
       ref={sectionRef}
-      className={
-        className ||
-        "relative w-full bg-transparent overflow-hidden select-none pt-24 sm:pt-28 lg:pt-28 xl:pt-32 pb-16 sm:pb-20 lg:pb-24 xl:pb-28 container-padding"
-      }
+      className={cn(
+        "relative w-full bg-transparent overflow-hidden select-none container-padding",
+        "pt-24 sm:pt-28 pb-12 sm:pb-16",
+        "lg:min-h-screen lg:h-screen lg:min-h-[100dvh] lg:h-[100dvh] lg:pt-28 xl:pt-32 2xl:pt-36 lg:pb-12 xl:pb-16 2xl:pb-20",
+        "flex flex-col justify-start items-center",
+        className
+      )}
     >
       <div
-        className={
-          containerClassName ||
-          "relative z-10 max-w-[1440px] 2xl:max-w-[1560px] mx-auto flex flex-col items-center"
-        }
+        className={cn(
+          "relative z-10 w-full max-w-[1440px] 2xl:max-w-[1560px] mx-auto flex flex-col items-center justify-start",
+          containerClassName
+        )}
       >
         {/* 1. Eyebrow / Category Tag */}
         {eyebrow && (
@@ -103,13 +107,13 @@ export default function CommonBanner({
             duration={0.6}
             yOffset={12}
             blurAmount={6}
-            className="text-center mb-2 sm:mb-2.5"
+            className="text-center mb-1.5 sm:mb-2 lg:mb-2.5"
           >
             <SubHeading
-              className={
-                eyebrowClassName ||
-                "font-segoe text-[10px] sm:text-xs tracking-[0.25em] text-[#000000] font-normal uppercase"
-              }
+              className={cn(
+                "font-segoe text-[10px] sm:text-xs tracking-[0.25em] text-[#000000] font-normal uppercase",
+                eyebrowClassName
+              )}
             >
               {eyebrow}
             </SubHeading>
@@ -117,25 +121,25 @@ export default function CommonBanner({
         )}
 
         {/* 2. Main Heading: Voyage Serif + Char Blur Dissolve */}
-        <div className="text-center mb-6 sm:mb-8 lg:mb-10 xl:mb-12">
+        <div className="text-center mb-4 sm:mb-6 lg:mb-6 xl:mb-8">
           <CharBlurDissolveHeading
             text={heading}
             as="h1"
             start="top 85%"
-            className={
-              headingClassName ||
-              "font-voyage text-5xl sm:text-6xl md:text-7xl lg:text-[76px] xl:text-[80px] 2xl:text-[100px] text-[#121212] font-normal leading-[1.05] tracking-tight text-center"
-            }
+            className={cn(
+              "font-voyage text-5xl sm:text-6xl md:text-7xl lg:text-[76px] xl:text-[80px] 2xl:text-[100px] text-[#121212] font-normal leading-[1.05] tracking-tight text-center",
+              headingClassName
+            )}
           />
         </div>
 
         {/* 3. Feature Visual Image */}
         <div
           ref={imageWrapperRef}
-          className={
-            imageWrapperClassName ||
-            "relative w-full max-w-[460px] sm:max-w-[520px] md:max-w-[580px] lg:max-w-[640px] xl:max-w-[700px] mx-auto flex justify-center will-change-[transform,opacity,filter] mb-6 sm:mb-8 lg:mb-10"
-          }
+          className={cn(
+            "relative w-full max-w-[460px] sm:max-w-[520px] md:max-w-[580px] lg:max-w-[620px] xl:max-w-[680px] 2xl:max-w-[840px] mx-auto flex justify-center will-change-[transform,opacity,filter] mb-4 sm:mb-6 lg:mb-6 xl:mb-8",
+            imageWrapperClassName
+          )}
         >
           <Image
             src={imageSrc}
@@ -143,10 +147,10 @@ export default function CommonBanner({
             width={1042}
             height={320}
             priority
-            className={
-              imageClassName ||
-              "w-full h-auto object-contain select-none pointer-events-none"
-            }
+            className={cn(
+              "w-full h-auto max-h-[180px] sm:max-h-[220px] lg:max-h-[240px] xl:max-h-[260px] 2xl:max-h-[440px] object-contain select-none pointer-events-none",
+              imageClassName
+            )}
           />
         </div>
 
@@ -157,10 +161,10 @@ export default function CommonBanner({
               text={description}
               triggerOnScroll
               start="top 85%"
-              className={
-                descriptionClassName ||
-                "font-segoe text-xs sm:text-[13px] lg:text-[13px] xl:text-sm text-[#484848] font-normal leading-[1.65] text-center max-w-[520px] mx-auto"
-              }
+              className={cn(
+                "font-segoe text-xs sm:text-[13px] lg:text-[13px] xl:text-sm text-[#484848] font-normal leading-[1.65] text-center max-w-[520px] mx-auto",
+                descriptionClassName
+              )}
             />
           </div>
         )}

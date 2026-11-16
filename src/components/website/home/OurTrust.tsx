@@ -140,7 +140,7 @@ export default function OurTrust({ data }: OurTrustProps) {
         <div className="flex flex-col lg:flex-row lg:items-stretch gap-10 lg:gap-10">
 
           {/* Left: Tagline, Heading, Paragraph */}
-          <div className="w-full lg:w-[42%] max-w-xl flex flex-col justify-between min-h-[300px] sm:min-h-[340px] lg:min-h-[410px]">
+          <div className="w-full lg:w-[42%] max-w-xl flex flex-col justify-between min-h-[100px] sm:min-h-[340px] lg:min-h-[410px]">
             <div className="pt-2 sm:pt-4">
               <span className="font-segoe text-[11px] sm:text-xs font-semibold tracking-[0.24em] text-[#121212]/80 uppercase">
                 {tagline}

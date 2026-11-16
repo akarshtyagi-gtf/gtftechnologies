@@ -43,6 +43,12 @@ export default function OurServices({ data }: OurServicesProps) {
   const rightContentRef = useRef<HTMLDivElement>(null);
   const ambientCircleRef = useRef<HTMLDivElement>(null);
 
+  // Dedicated Mobile UI Refs
+  const mobileContentWrapRef = useRef<HTMLDivElement>(null);
+  const mobileTitleRef = useRef<HTMLDivElement>(null);
+  const mobileTimelineRef = useRef<HTMLDivElement>(null);
+  const mobileButtonRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     if (typeof window === "undefined") return;
     gsap.registerPlugin(ScrollTrigger);
@@ -663,72 +669,480 @@ export default function OurServices({ data }: OurServicesProps) {
           });
         },
 
-        // MOBILE & TABLET (< 1024px): Responsive Staggered Flow
+        // MOBILE & TABLET (< 1024px): Responsive Scroll Animation
         "(max-width: 1023px)": () => {
+          const winHeight = window.innerHeight;
+          const winWidth = window.innerWidth;
+
+          // Measure card real width in the DOM
+          const cardEl = cardRefs.current[0];
+          const cardMeasuredWidth = cardEl?.offsetWidth || 310;
+
+          // Responsive sizing tokens for mobile 5-card row (clean 14px gap, guaranteed NO overlap)
+          const scaledCardWidth = 54;
+          const cardGap = 14;
+          const cardSpacing = scaledCardWidth + cardGap;
+          const rowCardScale = Number((scaledCardWidth / cardMeasuredWidth).toFixed(4));
+          const cardPositions = [
+            -2 * cardSpacing,
+            -cardSpacing,
+            0,
+            cardSpacing,
+            2 * cardSpacing,
+          ];
+
+          const ourEl = textOurRef.current;
+          const servicesEl = textServicesRef.current;
+
+          // Initial placements for mobile (Starts centered together)
+          if (ourEl) {
+            gsap.set(ourEl, {
+              x: 0,
+              y: 0,
+              scale: 1,
+              opacity: 1,
+              filter: "blur(0px)",
+              transformOrigin: "center center",
+            });
+          }
+
+          if (servicesEl) {
+            gsap.set(servicesEl, {
+              x: 0,
+              y: 0,
+              scale: 1,
+              opacity: 1,
+              filter: "blur(0px)",
+              transformOrigin: "center center",
+            });
+          }
+
+          if (mobileContentWrapRef.current) {
+            gsap.set(mobileContentWrapRef.current, { opacity: 0, y: 16 });
+          }
+          if (mobileTimelineRef.current) {
+            gsap.set(mobileTimelineRef.current, { opacity: 0, scale: 0.75 });
+          }
+
           const mobileTl = gsap.timeline({
             scrollTrigger: {
               trigger: sectionRef.current,
-              start: "top 88%",
-              toggleActions: "play none none reverse",
+              start: "top top",
+              end: "+=520%",
+              pin: pinContainerRef.current,
+              pinSpacing: true,
+              scrub: 1.2,
+              anticipatePin: 1,
+              invalidateOnRefresh: true,
             },
           });
 
-          mobileTl.to(
-            allIntroChars,
-            {
-              opacity: 1,
-              filter: "blur(0px)",
-              scale: 1,
-              y: 0,
-              duration: 0.7,
-              stagger: 0.02,
-              ease: "power2.out",
-            },
-            0
-          );
+          // Ensure bottom title & button remain strictly hidden in 1st step
+          if (mobileContentWrapRef.current) {
+            mobileTl.set(mobileContentWrapRef.current, { opacity: 0, y: 16 }, 0);
+          }
+
+          // ====================================================
+          // STEP 1: Heading words scale down & settle (OUR up, SERVICES down)
+          // Reduced vertical spacing (clean, snug gap around cards row)
+          // Small cards reveal into row one by one between them
+          // ====================================================
+          const settleY = 68;
+          const settleScale = 0.72;
+
+          if (ourEl) {
+            mobileTl.to(
+              ourEl,
+              {
+                y: -settleY,
+                scale: settleScale,
+                duration: 0.38,
+                ease: "power2.out",
+              },
+              0
+            );
+          }
+
+          if (servicesEl) {
+            mobileTl.to(
+              servicesEl,
+              {
+                y: settleY,
+                scale: settleScale,
+                duration: 0.38,
+                ease: "power2.out",
+              },
+              0
+            );
+          }
 
           cardRefs.current.forEach((el, idx) => {
-            if (!el) return;
+            if (!el || idx >= 5) return;
             mobileTl.to(
               el,
               {
                 opacity: 1,
-                scale: 1,
+                x: cardPositions[idx],
                 y: 0,
-                duration: 0.7,
+                scale: rowCardScale,
+                duration: 0.32,
                 ease: "power2.out",
               },
-              0.3 + idx * 0.1
+              0.04 + idx * 0.04
             );
           });
 
-          if (leftContentRef.current) {
+          // ====================================================
+          // STEP 2: "OUR" & "SERVICES" exit off-screen (up & down)
+          // Cards converge into center 3D stack
+          // Mobile Title, Timeline Circle & Button reveal smoothly
+          // ====================================================
+          if (ourEl) {
             mobileTl.to(
-              leftContentRef.current,
+              ourEl,
               {
-                opacity: 1,
-                y: 0,
-                filter: "blur(0px)",
-                duration: 0.6,
-                ease: "power2.out",
+                y: -winHeight * 0.85,
+                opacity: 0,
+                filter: "blur(14px)",
+                duration: 0.32,
+                ease: "power2.in",
               },
-              0.6
+              0.52
             );
           }
 
-          if (rightContentRef.current) {
+          if (servicesEl) {
             mobileTl.to(
-              rightContentRef.current,
+              servicesEl,
+              {
+                y: winHeight * 0.85,
+                opacity: 0,
+                filter: "blur(14px)",
+                duration: 0.32,
+                ease: "power2.in",
+              },
+              0.52
+            );
+          }
+
+          // Cards converge into center 3D Stack
+          cardRefs.current.forEach((el, idx) => {
+            if (!el || idx >= 5) return;
+            const yOffset = idx === 0 ? 0 : idx === 1 ? -28 : idx === 2 ? -56 : idx === 3 ? -84 : -112;
+            const cardScale = idx === 0 ? 1.0 : idx === 1 ? 0.94 : idx === 2 ? 0.88 : idx === 3 ? 0.82 : 0.76;
+            mobileTl.to(
+              el,
+              {
+                x: 0,
+                y: yOffset,
+                scale: cardScale,
+                duration: 0.40,
+                ease: "power2.inOut",
+              },
+              0.54
+            );
+          });
+
+          // Mobile content reveals smoothly when cards stack (Matching desktop 0.74 timing)
+          if (mobileContentWrapRef.current) {
+            mobileTl.to(
+              mobileContentWrapRef.current,
               {
                 opacity: 1,
                 y: 0,
-                filter: "blur(0px)",
-                duration: 0.6,
+                duration: 0.36,
                 ease: "power2.out",
               },
-              0.7
+              0.74
             );
           }
+
+          if (mobileTimelineRef.current) {
+            mobileTl.to(
+              mobileTimelineRef.current,
+              {
+                opacity: 1,
+                scale: 1,
+                duration: 0.36,
+                ease: "back.out(1.4)",
+              },
+              0.74
+            );
+          }
+
+          // ====================================================
+          // STEP 3: Scroll-driven Card Roll-up & Timeline Loader
+          // Exact mirror of Desktop Rounds 1 to 4
+          // ====================================================
+
+          // --- ROUND 1: Transition to Service 2 (Index 1) ---
+          mobileTl.fromTo(
+            ".srv-outline-circle",
+            { strokeDashoffset: 88 },
+            { strokeDashoffset: 0, duration: 0.55, ease: "none" },
+            1.05
+          );
+
+          if (cardRefs.current[1]) {
+            mobileTl.to(
+              cardRefs.current[1],
+              {
+                y: 120,
+                scale: 0.96,
+                opacity: 0.9,
+                duration: 0.22,
+                ease: "power1.in",
+              },
+              1.05
+            );
+            mobileTl.set(cardRefs.current[1], { zIndex: 60 }, 1.27);
+            mobileTl.to(
+              cardRefs.current[1],
+              {
+                y: 0,
+                scale: 1.0,
+                opacity: 1,
+                duration: 0.33,
+                ease: "power2.out",
+              },
+              1.27
+            );
+          }
+
+          if (cardRefs.current[0]) {
+            mobileTl.to(
+              cardRefs.current[0],
+              {
+                y: -28,
+                scale: 0.94,
+                zIndex: 50,
+                duration: 0.45,
+                ease: "power2.out",
+              },
+              1.15
+            );
+          }
+
+          if (cardRefs.current[2]) {
+            mobileTl.to(
+              cardRefs.current[2],
+              {
+                y: -56,
+                scale: 0.88,
+                duration: 0.45,
+                ease: "power2.out",
+              },
+              1.15
+            );
+          }
+
+          // --- ROUND 2: Transition to Service 3 (Index 2) ---
+          mobileTl.fromTo(
+            ".srv-outline-circle",
+            { strokeDashoffset: 88 },
+            { strokeDashoffset: 0, duration: 0.55, ease: "none" },
+            1.70
+          );
+
+          if (cardRefs.current[2]) {
+            mobileTl.to(
+              cardRefs.current[2],
+              {
+                y: 120,
+                scale: 0.96,
+                opacity: 0.9,
+                duration: 0.22,
+                ease: "power1.in",
+              },
+              1.70
+            );
+            mobileTl.set(cardRefs.current[2], { zIndex: 70 }, 1.92);
+            mobileTl.to(
+              cardRefs.current[2],
+              {
+                y: 0,
+                scale: 1.0,
+                opacity: 1,
+                duration: 0.33,
+                ease: "power2.out",
+              },
+              1.92
+            );
+          }
+
+          if (cardRefs.current[1]) {
+            mobileTl.to(
+              cardRefs.current[1],
+              {
+                y: -28,
+                scale: 0.94,
+                zIndex: 60,
+                duration: 0.45,
+                ease: "power2.out",
+              },
+              1.80
+            );
+          }
+
+          if (cardRefs.current[0]) {
+            mobileTl.to(
+              cardRefs.current[0],
+              {
+                y: -56,
+                scale: 0.88,
+                zIndex: 50,
+                duration: 0.45,
+                ease: "power2.out",
+              },
+              1.80
+            );
+          }
+
+          // --- ROUND 3: Transition to Service 4 (Index 3) ---
+          mobileTl.fromTo(
+            ".srv-outline-circle",
+            { strokeDashoffset: 88 },
+            { strokeDashoffset: 0, duration: 0.55, ease: "none" },
+            2.35
+          );
+
+          if (cardRefs.current[3]) {
+            mobileTl.to(
+              cardRefs.current[3],
+              {
+                opacity: 0.9,
+                y: 120,
+                scale: 0.96,
+                duration: 0.22,
+                ease: "power1.in",
+              },
+              2.35
+            );
+            mobileTl.set(cardRefs.current[3], { zIndex: 80 }, 2.57);
+            mobileTl.to(
+              cardRefs.current[3],
+              {
+                opacity: 1,
+                y: 0,
+                scale: 1.0,
+                duration: 0.33,
+                ease: "power2.out",
+              },
+              2.57
+            );
+          }
+
+          if (cardRefs.current[2]) {
+            mobileTl.to(
+              cardRefs.current[2],
+              {
+                y: -28,
+                scale: 0.94,
+                zIndex: 70,
+                duration: 0.45,
+                ease: "power2.out",
+              },
+              2.45
+            );
+          }
+
+          if (cardRefs.current[1]) {
+            mobileTl.to(
+              cardRefs.current[1],
+              {
+                y: -56,
+                scale: 0.88,
+                zIndex: 60,
+                duration: 0.45,
+                ease: "power2.out",
+              },
+              2.45
+            );
+          }
+
+          // --- ROUND 4: Transition to Service 5 (Index 4) ---
+          mobileTl.fromTo(
+            ".srv-outline-circle",
+            { strokeDashoffset: 88 },
+            { strokeDashoffset: 0, duration: 0.55, ease: "none" },
+            3.00
+          );
+
+          if (cardRefs.current[4]) {
+            mobileTl.to(
+              cardRefs.current[4],
+              {
+                opacity: 0.9,
+                y: 120,
+                scale: 0.96,
+                duration: 0.22,
+                ease: "power1.in",
+              },
+              3.00
+            );
+            mobileTl.set(cardRefs.current[4], { zIndex: 90 }, 3.22);
+            mobileTl.to(
+              cardRefs.current[4],
+              {
+                opacity: 1,
+                y: 0,
+                scale: 1.0,
+                duration: 0.33,
+                ease: "power2.out",
+              },
+              3.22
+            );
+          }
+
+          if (cardRefs.current[3]) {
+            mobileTl.to(
+              cardRefs.current[3],
+              {
+                y: -28,
+                scale: 0.94,
+                zIndex: 80,
+                duration: 0.45,
+                ease: "power2.out",
+              },
+              3.10
+            );
+          }
+
+          if (cardRefs.current[2]) {
+            mobileTl.to(
+              cardRefs.current[2],
+              {
+                y: -56,
+                scale: 0.88,
+                zIndex: 70,
+                duration: 0.45,
+                ease: "power2.out",
+              },
+              3.10
+            );
+          }
+
+          // Scrub-synchronized active index detection on mobile
+          mobileTl.eventCallback("onUpdate", () => {
+            const p = mobileTl.progress();
+            let newIdx = 0;
+            if (p >= 0.87) {
+              newIdx = 4;
+            } else if (p >= 0.68) {
+              newIdx = 3;
+            } else if (p >= 0.49) {
+              newIdx = 2;
+            } else if (p >= 0.30) {
+              newIdx = 1;
+            } else {
+              newIdx = 0;
+            }
+
+            if (newIdx !== activeServiceIndexRef.current) {
+              activeServiceIndexRef.current = newIdx;
+              setActiveServiceIndex(newIdx);
+            }
+          });
         },
       });
 
@@ -774,7 +1188,7 @@ export default function OurServices({ data }: OurServicesProps) {
       {/* Pinned Viewport Container (True vertical center on desktop, proper clearance on mobile) */}
       <div
         ref={pinContainerRef}
-        className="relative w-full min-h-screen lg:h-screen lg:max-h-screen overflow-hidden flex flex-col justify-center items-center container-padding pt-24 pb-12 sm:pt-28 sm:pb-14 lg:py-0 bg-transparent"
+        className="relative w-full h-screen max-h-screen overflow-hidden flex flex-col justify-center items-center container-padding py-0 bg-transparent"
       >
         {/* Concentric Ambient Circle Background Arc */}
         <div
@@ -796,16 +1210,16 @@ export default function OurServices({ data }: OurServicesProps) {
         {/* ============================================================== */}
         <div
           ref={introHeadingRef}
-          className="hidden lg:flex absolute inset-0 z-40 items-center justify-center pointer-events-none px-4 select-none [perspective:1200px] [transform-style:preserve-3d]"
+          className="flex absolute inset-0 z-40 items-center justify-center pointer-events-none px-4 select-none [perspective:1200px] [transform-style:preserve-3d]"
         >
           <div
             ref={innerHeadingWrapRef}
-            className="relative flex items-center justify-center gap-5 sm:gap-7 lg:gap-8 will-change-transform [perspective:1200px] [transform-style:preserve-3d]"
+            className="relative flex flex-col lg:flex-row items-center justify-center gap-0 lg:gap-8 will-change-transform [perspective:1200px] [transform-style:preserve-3d]"
           >
             {/* Word 1: OUR */}
             <h2
               ref={textOurRef}
-              className="font-voyage text-[72px] lg:text-[116px] xl:text-[142px] 2xl:text-[166px] text-[#121212] leading-none tracking-normal will-change-transform shrink-0"
+              className="font-voyage text-[62px] xs:text-[74px] sm:text-[88px] lg:text-[116px] xl:text-[142px] 2xl:text-[166px] text-[#121212] leading-none tracking-normal will-change-transform shrink-0"
             >
               {renderCharSpan("OUR", "srv-char-our")}
             </h2>
@@ -813,19 +1227,11 @@ export default function OurServices({ data }: OurServicesProps) {
             {/* Word 2: SERVICES */}
             <h2
               ref={textServicesRef}
-              className="font-voyage text-[72px] lg:text-[116px] xl:text-[142px] 2xl:text-[166px] text-[#121212] leading-none tracking-normal will-change-transform shrink-0"
+              className="font-voyage text-[62px] xs:text-[74px] sm:text-[88px] lg:text-[116px] xl:text-[142px] 2xl:text-[166px] text-[#121212] leading-none tracking-normal will-change-transform shrink-0"
             >
               {renderCharSpan("SERVICES", "srv-char-services")}
             </h2>
           </div>
-        </div>
-
-        {/* Mobile Heading Banner (< 1024px, safely below navbar) */}
-        <div className="lg:hidden w-full text-center mb-6 pt-2 relative z-30">
-          <SectionHeading as="h2" className="text-[44px] sm:text-[60px]">
-            <span className="block">{renderCharSpan("OUR", "srv-char-our")}</span>
-            <span className="block mt-[-0.08em]">{renderCharSpan("SERVICES", "srv-char-services")}</span>
-          </SectionHeading>
         </div>
 
         {/* ============================================================== */}
@@ -838,7 +1244,7 @@ export default function OurServices({ data }: OurServicesProps) {
           {/* ========================================== */}
           <div
             ref={leftContentRef}
-            className="w-full lg:w-[280px] xl:w-[320px] 2xl:w-[380px] flex flex-col justify-between items-start text-left shrink-0 z-30 order-2 lg:order-1 h-auto lg:h-[400px] xl:h-[450px] 2xl:h-[530px] pt-14 xl:pt-16 2xl:pt-4 will-change-transform opacity-0"
+            className="hidden lg:flex w-full lg:w-[280px] xl:w-[320px] 2xl:w-[380px] flex-col justify-between items-start text-left shrink-0 z-30 order-2 lg:order-1 h-auto lg:h-[400px] xl:h-[450px] 2xl:h-[530px] pt-14 xl:pt-16 2xl:pt-4 will-change-transform opacity-0"
           >
             {/* Top: Circular Progress Loader Ring with Centered Counter */}
             <div className="relative w-[50px] h-[50px] sm:w-[56px] sm:h-[56px] lg:w-[69px] lg:h-[69px] rounded-full flex items-center justify-center shrink-0">
@@ -859,6 +1265,7 @@ export default function OurServices({ data }: OurServicesProps) {
                 {/* Active progress stroke (Thin refined ring) */}
                 <circle
                   ref={outlineCircleRef}
+                  className="srv-outline-circle"
                   cx="18"
                   cy="18"
                   r="14"
@@ -915,7 +1322,7 @@ export default function OurServices({ data }: OurServicesProps) {
           {/* CENTER COLUMN: 3D Parallax Card Stack      */}
           {/* Cards roll up from bottom on scroll        */}
           {/* ========================================== */}
-          <div className="relative w-full max-w-[320px] sm:max-w-[360px] lg:w-[350px] xl:w-[400px] 2xl:w-[480px] aspect-[498/636] shrink-0 flex items-center justify-center order-1 lg:order-2 my-4 lg:my-0 [perspective:1200px]">
+          <div className="relative w-full max-w-[310px] xs:max-w-[335px] sm:max-w-[360px] lg:max-w-none lg:w-[350px] xl:w-[400px] 2xl:w-[480px] aspect-[498/636] shrink-0 flex items-center justify-center order-1 lg:order-2 my-0 [perspective:1200px]">
             {services.map((item, idx) => {
               const cardData = item.card;
 
@@ -944,6 +1351,73 @@ export default function OurServices({ data }: OurServicesProps) {
                 </div>
               );
             })}
+
+            {/* Mobile Timeline Circle (Right-bottom corner of card stack) */}
+            <div
+              ref={mobileTimelineRef}
+              className="lg:hidden absolute right-3 bottom-3 z-[100] flex items-center justify-center will-change-[transform,opacity] pointer-events-none"
+            >
+              <div className="relative w-[46px] h-[46px] sm:w-[52px] sm:h-[52px] rounded-full bg-white/95 backdrop-blur-[6px] shadow-[0_4px_16px_rgba(0,0,0,0.25)] flex items-center justify-center shrink-0">
+                <svg
+                  className="absolute inset-0 w-full h-full -rotate-90 pointer-events-none"
+                  viewBox="0 0 36 36"
+                >
+                  <circle
+                    cx="18"
+                    cy="18"
+                    r="14"
+                    stroke="rgba(0,0,0,0.12)"
+                    strokeWidth="1.2"
+                    fill="none"
+                  />
+                  <circle
+                    className="srv-outline-circle"
+                    cx="18"
+                    cy="18"
+                    r="14"
+                    stroke="#121212"
+                    strokeWidth="1.6"
+                    strokeLinecap="round"
+                    fill="none"
+                    strokeDasharray={88}
+                    strokeDashoffset={88}
+                  />
+                </svg>
+                <span className="font-voyage text-[16px] sm:text-[18px] text-[#121212] tracking-wider select-none font-medium">
+                  {currentService.counter}
+                </span>
+              </div>
+            </div>
+
+            {/* Mobile Service Title & Explore Button (Positioned directly below the card stack) */}
+            <div
+              ref={mobileContentWrapRef}
+              className="lg:hidden absolute top-[calc(100%+14px)] left-0 right-0 flex flex-col items-center justify-center z-30 pointer-events-none opacity-0 will-change-[transform,opacity]"
+            >
+              {/* Service Title with Yellow Highlight & Underline (Above Button) */}
+              <div
+                ref={mobileTitleRef}
+                className="flex flex-col items-center text-center mb-2.5 sm:mb-3 will-change-[transform,opacity]"
+              >
+                <h3 className="font-voyage text-[24px] xs:text-[28px] sm:text-[32px] text-[#121212] leading-[1.15] text-center flex flex-wrap items-center justify-center gap-1.5 xs:gap-2">
+                  <span>{currentService.titleLight}</span>
+                  <span className="inline-block bg-[#FFF089] text-[#121212] px-2.5 py-0.5 rounded-[4px] shadow-sm font-normal">
+                    {currentService.titleHighlight}
+                  </span>
+                </h3>
+                <div className="w-16 sm:w-20 h-[1.5px] bg-[#121212]/75 mt-1.5 rounded-full" />
+              </div>
+
+              {/* Explore Services Button */}
+              <div
+                ref={mobileButtonRef}
+                className="flex justify-center items-center will-change-[transform,opacity]"
+              >
+                <Button href="#contact" variant="circle-arrow" iconPosition="left">
+                  EXPLORE SERVICES
+                </Button>
+              </div>
+            </div>
           </div>
 
           {/* ========================================== */}
@@ -951,7 +1425,7 @@ export default function OurServices({ data }: OurServicesProps) {
           {/* ========================================== */}
           <div
             ref={rightContentRef}
-            className="w-full lg:w-[280px] xl:w-[320px] 2xl:w-[380px] flex flex-col justify-between items-start lg:items-end text-left shrink-0 z-30 order-3 h-auto lg:h-[400px] xl:h-[450px] 2xl:h-[530px] pt-14 xl:pt-16 2xl:pt-4 will-change-transform opacity-0"
+            className="hidden lg:flex w-full lg:w-[280px] xl:w-[320px] 2xl:w-[380px] flex-col justify-between items-start lg:items-end text-left shrink-0 z-30 order-3 h-auto lg:h-[400px] xl:h-[450px] 2xl:h-[530px] pt-14 xl:pt-16 2xl:pt-4 will-change-transform opacity-0"
           >
             {/* Top Right Paragraph with ContentReveal */}
             <div className="w-full">

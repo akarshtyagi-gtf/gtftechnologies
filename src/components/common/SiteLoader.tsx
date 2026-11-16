@@ -11,7 +11,6 @@ export default function SiteLoader() {
   const loaderRef = useRef<HTMLDivElement>(null);
   const textureRef = useRef<HTMLDivElement>(null);
   const logoWrapRef = useRef<HTMLDivElement>(null);
-  const barRef = useRef<HTMLDivElement>(null);
 
   const pinkClipRef = useRef<SVGRectElement>(null);
   const yellowClipRef = useRef<SVGRectElement>(null);
@@ -58,22 +57,6 @@ export default function SiteLoader() {
         undefined,
         0.18
       );
-
-      // 1. Progress bar completes to 100% and gently fades out on center
-      if (barRef.current) {
-        exitTl.to(
-          barRef.current,
-          { scaleX: 1, duration: 0.25, ease: "power2.out" },
-          0
-        );
-        if (barRef.current.parentElement) {
-          exitTl.to(
-            barRef.current.parentElement,
-            { opacity: 0, duration: 0.35, ease: "power2.out" },
-            0.08
-          );
-        }
-      }
 
       // 2. Logo fades out smoothly dead-centered without any shift or movement
       if (logoWrapRef.current) {
@@ -254,15 +237,7 @@ export default function SiteLoader() {
         1.15
       );
 
-      // 4. Progress bar tracks smoothly to 88% across the entire slow cinematic intro
-      if (barRef.current) {
-        introTl.fromTo(
-          barRef.current,
-          { scaleX: 0 },
-          { scaleX: 0.88, duration: 2.6, ease: "power1.out" },
-          0
-        );
-      }
+
     }, loader);
 
     return () => {
@@ -701,14 +676,7 @@ export default function SiteLoader() {
           </g>
         </svg>
 
-        {/* Minimal Hairline Progress Indicator */}
-        <div className="w-36 sm:w-44 h-[1.5px] bg-black/10 rounded-full overflow-hidden mt-7">
-          <div
-            ref={barRef}
-            className="w-full h-full bg-[#121212] origin-left"
-            style={{ transform: "scaleX(0)" }}
-          />
-        </div>
+
       </div>
     </div>
   );

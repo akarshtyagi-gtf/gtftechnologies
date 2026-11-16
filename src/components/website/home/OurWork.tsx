@@ -432,13 +432,13 @@ export default function OurWork({ data }: OurWorkProps) {
       ref={sectionRef}
       className="relative w-full bg-transparent overflow-hidden"
     >
-      {/* Pinned Viewport Container - Exactly covers 100vh with both Heading and Cards WITHOUT cutting */}
+      {/* Pinned Viewport Container - Covers 100vh on Desktop; hugs content tightly on Mobile */}
       <div
         ref={pinContainerRef}
-        className="relative w-full min-h-screen lg:h-screen lg:max-h-screen overflow-hidden"
+        className="relative w-full lg:min-h-screen lg:h-screen lg:max-h-screen overflow-hidden"
       >
         {/* Inner Content Wrapper preserving exact padding and layout */}
-        <div className="relative w-full h-full flex flex-col justify-between container-padding pt-3 sm:pt-4 lg:pt-5 pb-3 sm:pb-4 lg:pb-5">
+        <div className="relative w-full h-full flex flex-col justify-between container-padding pt-3 sm:pt-4 lg:pt-5 pb-0 lg:pb-5">
           {/* Concentric Ambient Circles rotated 180deg so the curved arch crowns the top */}
           <div
             ref={circleRef}
@@ -574,35 +574,9 @@ export default function OurWork({ data }: OurWorkProps) {
             </div>
           </div>
 
-          {/* Mobile & Tablet Responsive Layout (< 1024px) */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5 lg:hidden w-full mt-3">
-            <div className="sm:col-span-2 w-full">
-              <WorkCenterSlider />
-            </div>
-
-            <div className="w-full aspect-[442/370]">
-              {renderCard(data.columns.left[0], "w-full h-full", "object-cover object-top")}
-            </div>
-
-            <div className="w-full aspect-[442/278]">
-              {renderCard(data.columns.right[0], "w-full h-full", "object-cover object-center")}
-            </div>
-
-            <div className="w-full aspect-[442/218]">
-              {renderCard(data.columns.centerRow[0], "w-full h-full", "object-cover object-center")}
-            </div>
-
-            <div className="w-full aspect-[442/218]">
-              {renderCard(data.columns.centerRow[1], "w-full h-full", "object-cover object-center")}
-            </div>
-
-            <div className="w-full aspect-[442/221]">
-              {renderCard(data.columns.left[1], "w-full h-full", "object-cover object-center")}
-            </div>
-
-            <div className="w-full aspect-[442/369]">
-              {renderCard(data.columns.right[1], "w-full h-full", "object-cover object-top")}
-            </div>
+          {/* Mobile & Tablet Responsive Layout (< 1024px): Only the Center Slider is visible */}
+          <div className="block lg:hidden w-full mt-3 sm:mt-4 pb-0">
+            <WorkCenterSlider />
           </div>
         </div>
 

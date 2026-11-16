@@ -152,31 +152,177 @@ export default function ServiceListSection() {
     });
 
     let lastIndex = 0;
+    const hasRevealedRef = { current: false };
+    let revealTimeline: gsap.core.Timeline | null = null;
+
+    const playRevealAnimation = () => {
+      if (hasRevealedRef.current) return;
+      hasRevealedRef.current = true;
+
+      if (revealTimeline) {
+        revealTimeline.kill();
+      }
+
+      const tl = gsap.timeline({
+        defaults: { ease: "power3.out" },
+      });
+
+      // 1. Timeline container reveals smoothly
+      if (timelineContainerRef.current) {
+        tl.to(
+          timelineContainerRef.current,
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.85,
+            onStart: () => {
+              if (timelineContainerRef.current) {
+                timelineContainerRef.current.style.pointerEvents = "auto";
+              }
+            },
+          },
+          0
+        );
+      }
+
+      // Step nodes (1 to 7) subtle staggered pop-in
+      const validButtons = stepButtonRefs.current.filter(Boolean);
+      if (validButtons.length > 0) {
+        tl.fromTo(
+          validButtons,
+          { opacity: 0, scale: 0.82, y: 8 },
+          {
+            opacity: 1,
+            scale: 1,
+            y: 0,
+            duration: 0.65,
+            stagger: 0.045,
+            ease: "back.out(1.4)",
+          },
+          0.08
+        );
+      }
+
+      // 2. Editorial content container reveals smoothly
+      if (contentContainerRef.current) {
+        tl.to(
+          contentContainerRef.current,
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.85,
+            onStart: () => {
+              if (contentContainerRef.current) {
+                contentContainerRef.current.style.pointerEvents = "auto";
+              }
+            },
+          },
+          0.06
+        );
+      }
+
+      // 3. Step 0 elements smooth reveal
+      const t0 = titleRefs.current[0];
+      const c1 = col1Refs.current[0];
+      const c2 = col2Refs.current[0];
+      const btn = ctaRefs.current[0];
+
+      if (t0) {
+        tl.fromTo(
+          t0,
+          { opacity: 0, y: 20, filter: "blur(8px)" },
+          { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.85 },
+          0.1
+        );
+      }
+
+      if (c1) {
+        tl.fromTo(
+          c1,
+          { opacity: 0, y: 14, filter: "blur(6px)" },
+          { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.75 },
+          0.18
+        );
+      }
+
+      if (c2) {
+        tl.fromTo(
+          c2,
+          { opacity: 0, y: 14, filter: "blur(6px)" },
+          { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.75 },
+          0.24
+        );
+      }
+
+      if (btn) {
+        tl.fromTo(
+          btn,
+          { opacity: 0, y: 12 },
+          { opacity: 1, y: 0, duration: 0.65 },
+          0.30
+        );
+      }
+
+      revealTimeline = tl;
+    };
+
+    const reverseRevealAnimation = () => {
+      if (!hasRevealedRef.current) return;
+      hasRevealedRef.current = false;
+
+      if (revealTimeline) {
+        revealTimeline.kill();
+      }
+
+      const tl = gsap.timeline({
+        defaults: { ease: "power2.inOut", duration: 0.35 },
+      });
+
+      if (timelineContainerRef.current) {
+        tl.to(timelineContainerRef.current, { opacity: 0, y: 16 }, 0);
+      }
+
+      if (contentContainerRef.current) {
+        tl.to(contentContainerRef.current, { opacity: 0, y: 24 }, 0);
+      }
+
+      revealTimeline = tl;
+    };
+
+    // Ensure initial particle spread is visible across the 100vh section immediately in default state
+    particleCanvasRef.current?.setProgress(0);
 
     // 1. Particle Assembly ScrollTrigger (ACTIVE BEFORE PIN, while scrolling into view):
-    // Particles fly from off-screen right, left, and bottom into center photo on basis of scroll
+    // Particles stream from right, left, and center/bottom of the screen into the center photo
     const particleST = ScrollTrigger.create({
       trigger: sectionEl,
-      start: "top 50%", // Starts as section enters viewport from below banner
+      start: "top 70%", // Smooth natural entry as section scrolls into view
       end: "top top",   // Finishes right when section reaches the top of screen
       scrub: 0.35,
       onUpdate: (self) => {
         const p = self.progress;
 
-        // Particles move continuously on basis of scroll from outside into center
+        // Particles move continuously on basis of scroll from right, left, and center into center photo
         particleCanvasRef.current?.setProgress(p);
 
-        // Center photo ONLY reveals at the very end as particles assemble in center (82% to 100%)
-        // Strictly hidden (opacity: 0) while particles are streaming (0% to 82%)
+        // Center photo ONLY reveals at the end as particles converge into image (78% to 100%)
+        // Particle assembly remains completely clear and undisturbed while streaming (0% to 78%)
         if (imageWrapperRef.current) {
-          const imgOpacity = Math.min(1, Math.max(0, (p - 0.82) / 0.18));
+          const imgOpacity = Math.min(1, Math.max(0, (p - 0.78) / 0.22));
           imageWrapperRef.current.style.opacity = `${imgOpacity}`;
+        }
+
+        // Smoothly reveal timeline step & content by animation as particles convert into image
+        if (p >= 0.75 && !hasRevealedRef.current) {
+          playRevealAnimation();
+        } else if (p < 0.40 && hasRevealedRef.current) {
+          reverseRevealAnimation();
         }
       },
     });
 
     // 2. Master Pinned Section ScrollTrigger (ACTIVE AFTER SECTION PIN):
-    // Pinned at top top: reveals timeline + content, fills horizontal line, navigates steps 1-7
+    // Pinned at top top: content & timeline remain 100% visible, fills horizontal line, navigates steps 1-7
     const pinST = ScrollTrigger.create({
       trigger: sectionEl,
       start: "top top",
@@ -188,6 +334,11 @@ export default function ServiceListSection() {
       invalidateOnRefresh: true,
       onUpdate: (self) => {
         const p = self.progress;
+
+        // Ensure reveal is completed when pinned
+        if (!hasRevealedRef.current) {
+          playRevealAnimation();
+        }
 
         // Active Step Index: evenly partitioned across the 7 steps
         const stepFraction = 1 / totalSteps;
@@ -211,22 +362,6 @@ export default function ServiceListSection() {
         }
         if (!isStepTransitioningRef.current) {
           particleCanvasRef.current?.setProgress(1);
-        }
-
-        // Reveal timeline & content smoothly at the start of pin
-        const revealProgress = Math.min(1, p / 0.08);
-        const revealEase = 1 - Math.pow(1 - revealProgress, 3);
-
-        if (timelineContainerRef.current) {
-          timelineContainerRef.current.style.opacity = `${revealEase}`;
-          timelineContainerRef.current.style.transform = `translateY(${(1 - revealEase) * 16}px)`;
-          timelineContainerRef.current.style.pointerEvents = "auto";
-        }
-
-        if (contentContainerRef.current) {
-          contentContainerRef.current.style.opacity = `${revealEase}`;
-          contentContainerRef.current.style.transform = `translateY(${(1 - revealEase) * 24}px)`;
-          contentContainerRef.current.style.pointerEvents = "auto";
         }
 
         // Horizontal White Line Fill: 0% to 100% across the 7 steps
@@ -385,6 +520,7 @@ export default function ServiceListSection() {
     });
 
     return () => {
+      revealTimeline?.kill();
       particleST.kill();
       pinST.kill();
     };
@@ -408,20 +544,20 @@ export default function ServiceListSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full h-screen min-h-screen overflow-hidden select-none bg-transparent flex flex-col justify-between pt-16 sm:pt-18 md:pt-20 lg:pt-22 xl:pt-24 pb-4 sm:pb-6 lg:pb-8"
+      className="relative w-full h-screen min-h-screen overflow-hidden select-none bg-transparent flex flex-col justify-between pt-6 sm:pt-8 md:pt-10 lg:pt-12 xl:pt-14 pb-4 sm:pb-6 lg:pb-8"
     >
-      {/* Full-Screen WebGL Particle Canvas (Obsidian Assembly style: dense dust specks -> converge to center) */}
+      {/* Full-Screen WebGL Particle Canvas (Higher z-index 3D perspective across full 100vh section) */}
       <ImageParticleCanvas
         ref={particleCanvasRef}
         targetElementRef={imageFrameRef}
         imageSrc="/images/service/service_1.webp"
-        className="absolute inset-0 w-full h-full pointer-events-none z-20"
+        className="absolute inset-0 w-full h-full pointer-events-none z-40"
       />
 
       {/* =================================================================== */}
       {/* 1. VISUAL IMAGE FRAME: FULL VW (EDGE-TO-EDGE) & 100% CLEAR CENTER   */}
       {/* Center is completely clear: knight & pawns are sharp and prominent  */}
-      {/* Minimal top edge dissolve; minimal bottom edge fade below timeline */}
+      {/* Alpha mask & edge dissolves completely eliminate top/bottom line gaps */}
       {/* =================================================================== */}
       <div
         ref={imageFrameRef}
@@ -430,7 +566,7 @@ export default function ServiceListSection() {
         {/* Base Image Wrapper: exact original placement, handles only opacity & step transition */}
         <div
           ref={imageWrapperRef}
-          className="absolute inset-0 w-full h-full z-10 pointer-events-none will-change-opacity"
+          className="absolute inset-0 w-full h-full z-10 pointer-events-none will-change-opacity [mask-image:linear-gradient(to_bottom,transparent_0%,black_14%,black_86%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,black_14%,black_86%,transparent_100%)]"
           style={{ opacity: 0 }}
         >
           {/* Inner container: moves strictly on timeline scrollbar without disturbing base placement */}
@@ -450,11 +586,11 @@ export default function ServiceListSection() {
           </div>
         </div>
 
-        {/* Minimal Top Edge Dissolve: very subtle, zero hard lines */}
-        <div className="absolute top-0 left-0 w-full h-10 sm:h-12 md:h-14 z-10 pointer-events-none bg-gradient-to-b from-[#F8F6F0] via-[#F8F6F0]/60 to-transparent" />
+        {/* Minimal Top Edge Dissolve: dissolves softly into #F8F6F0 without lines */}
+        <div className="absolute top-0 left-0 w-full h-12 sm:h-16 md:h-20 z-10 pointer-events-none bg-gradient-to-b from-[#F8F6F0] via-[#F8F6F0]/80 to-transparent" />
 
         {/* Bottom Edge Fade: ONLY at the very bottom edge, beneath the timeline! */}
-        <div className="absolute bottom-0 left-0 w-full h-10 sm:h-12 md:h-14 z-10 pointer-events-none bg-gradient-to-t from-[#F8F6F0] via-[#F8F6F0]/75 to-transparent" />
+        <div className="absolute bottom-0 left-0 w-full h-12 sm:h-16 md:h-20 z-10 pointer-events-none bg-gradient-to-t from-[#F8F6F0] via-[#F8F6F0]/80 to-transparent" />
 
         {/* =================================================================== */}
         {/* 2. TIMELINE: SITS ON THE CLEAR PHOTO AT THE BASE OF CHESS PIECES    */}

@@ -103,8 +103,9 @@ const ImageParticleCanvas = forwardRef<ImageParticleCanvasHandle, ImageParticleC
         const naturalH = img.naturalHeight || img.height || 1080;
         const aspect = naturalW / naturalH || 16 / 9;
 
-        // Sample resolution: 190 horizontal x ~105 vertical = ~20,000 pixels
-        const sampleW = 190;
+        // Sample resolution: 240 horizontal x ~135 vertical = ~32,400 pixels
+        // High density creates rich, granular image particle noise with 60/120 FPS performance
+        const sampleW = 240;
         const sampleH = Math.round(sampleW / aspect);
         sampleCanvas.width = sampleW;
         sampleCanvas.height = sampleH;
@@ -126,22 +127,24 @@ const ImageParticleCanvas = forwardRef<ImageParticleCanvasHandle, ImageParticleC
           const b = imgData[byteIdx + 2];
           const a = imgData[byteIdx + 3];
 
-          // Skip transparent pixels
+          // Skip transparent pixels and outer edge pixel rows so particles don't accumulate into edge lines
           if (a < 20) continue;
 
           const px = idx % sampleW;
           const py = Math.floor(idx / sampleW);
 
+          if (py < sampleH * 0.02 || py > sampleH * 0.96) continue;
+
           // EXACT photographic pixel target coordinate inside the center photo
           const targetX = imgLeft + (px / sampleW) * (imgRight - imgLeft);
           const targetY = imgTop + (py / sampleH) * (imgBottom - imgTop);
 
-          // 3-way distribution with extra thick density on bottom (Left 28%, Right 28%, Bottom 44%)
+          // 3-way distribution: particles stream in from right, left, and center/bottom of the screen
           const rand = Math.random();
           let outerX = 0;
           let outerY = 0;
           let rise = 0;
-          let depthScale = 0.55 + Math.random() * 0.35;
+          let depthScale = 0.70 + Math.random() * 0.40;
 
           if (rand < 0.28) {
             // Left flank: flies in from 3D foreground left
@@ -154,21 +157,21 @@ const ImageParticleCanvas = forwardRef<ImageParticleCanvasHandle, ImageParticleC
             outerY = 0.05 + Math.random() * 0.90;
             rise = 28 + Math.random() * 42;
           } else {
-            // Bottom flank: thick carpet of particles rising up in 3D foreground
+            // Center & bottom flank: surges upward from bottom-center in 3D foreground
             outerX = 0.02 + Math.random() * 0.96;
-            outerY = 0.78 + Math.random() * 0.42;
+            outerY = 0.68 + Math.random() * 0.32;
             rise = 55 + Math.random() * 75;
-            depthScale = 0.75 + Math.random() * 0.45; // Enhanced 3D perspective in foreground
+            depthScale = 0.90 + Math.random() * 0.50;
           }
 
           const curve = (Math.random() - 0.5) * 60;
-          const size = 1.7 + Math.random() * 0.4; // Fine, tiny delicate particle specks as before
-          // Warm color floor ensures particles glow with bronze/gold rather than looking like flat black noise
-          const adjR = Math.max(28, r);
-          const adjG = Math.max(24, g);
-          const adjB = Math.max(20, b);
+          const size = 1.7 + Math.random() * 0.4;
+          // High-contrast metallic tones visible clearly on 2xl screens: charcoal, bronze, amber gold
+          const adjR = Math.max(24, r);
+          const adjG = Math.max(20, g);
+          const adjB = Math.max(16, b);
           const color = `rgba(${adjR}, ${adjG}, ${adjB},`;
-          const alpha = Math.min(1, Math.max(0.72, a / 255));
+          const alpha = Math.min(1, Math.max(0.82, a / 255));
           const delay = Math.random() * 0.16;
 
           particles.push({
@@ -202,15 +205,15 @@ const ImageParticleCanvas = forwardRef<ImageParticleCanvasHandle, ImageParticleC
     const initFallbackParticles = (canvas: HTMLCanvasElement) => {
       const { imgLeft, imgRight, imgTop, imgBottom } = getTargetBounds(canvas);
       const particles: Particle[] = [];
-      const count = 18000;
+      const count = 32000;
 
       const colors = [
-        "rgba(36, 30, 24,",   // Warm deep bronze
-        "rgba(56, 46, 36,",   // Bronze shadow
-        "rgba(82, 68, 52,",   // Warm bronze
-        "rgba(112, 94, 72,",  // Golden bronze
-        "rgba(146, 124, 96,", // Amber gold highlight
-        "rgba(175, 150, 120,",// Metallic pawn reflection
+        "rgba(22, 18, 14,",   // Deep charcoal obsidian
+        "rgba(40, 32, 24,",   // Dark espresso bronze
+        "rgba(68, 54, 40,",   // Warm bronze
+        "rgba(102, 82, 62,",  // Golden bronze
+        "rgba(142, 116, 88,", // Amber gold highlight
+        "rgba(178, 150, 118,",// Metallic pawn reflection
       ];
 
       for (let i = 0; i < count; i++) {
@@ -218,30 +221,33 @@ const ImageParticleCanvas = forwardRef<ImageParticleCanvasHandle, ImageParticleC
         let outerX = 0;
         let outerY = 0;
         let rise = 0;
-        let depthScale = 0.55 + Math.random() * 0.35;
+        let depthScale = 0.70 + Math.random() * 0.40;
 
         if (rand < 0.28) {
+          // Left flank: flies in from 3D foreground left
           outerX = -0.05 - Math.random() * 0.35;
           outerY = 0.05 + Math.random() * 0.90;
           rise = 28 + Math.random() * 42;
         } else if (rand < 0.56) {
+          // Right flank: flies in from 3D foreground right
           outerX = 1.05 + Math.random() * 0.35;
           outerY = 0.05 + Math.random() * 0.90;
           rise = 28 + Math.random() * 42;
         } else {
+          // Center & bottom flank: thick carpet rising upward
           outerX = 0.02 + Math.random() * 0.96;
-          outerY = 0.78 + Math.random() * 0.42;
+          outerY = 0.68 + Math.random() * 0.32;
           rise = 55 + Math.random() * 75;
-          depthScale = 0.75 + Math.random() * 0.45;
+          depthScale = 0.90 + Math.random() * 0.50;
         }
 
         const targetX = imgLeft + Math.random() * (imgRight - imgLeft);
         const targetY = imgTop + Math.random() * (imgBottom - imgTop);
 
         const curve = (Math.random() - 0.5) * 60;
-        const size = 1.7 + Math.random() * 0.4; // Fine, tiny delicate particles
+        const size = 1.7 + Math.random() * 0.4;
         const colorBase = colors[Math.floor(Math.random() * colors.length)];
-        const alpha = 0.82 + Math.random() * 0.18;
+        const alpha = 0.85 + Math.random() * 0.15;
         const delay = Math.random() * 0.16;
 
         particles.push({
@@ -275,29 +281,30 @@ const ImageParticleCanvas = forwardRef<ImageParticleCanvasHandle, ImageParticleC
       const p = progressRef.current;
 
       // Fully dissolved once assembled into the solid photo
-      if (p >= 0.98) return;
+      if (p >= 0.99) return;
 
       const particles = particlesRef.current;
       const len = particles.length;
       const dpr = dprRef.current;
 
-      // Particles dissolve in the final stage once gathered inside the photo
+      // Particles stay fully dense and dissolve in the final 15% as the photo crystallizes
       const globalAlphaMultiplier = p > 0.85 ? Math.max(0, (1 - p) / 0.15) : 1;
       if (globalAlphaMultiplier <= 0.01) return;
 
-      // Soft feathering at the very top edge to eliminate any hard line cut
-      const topFeatherPx = 90 * dpr;
+      // Screen factor ensures particles are crisp and visible on 2xl & high-DPI displays
+      const cssWidth = w / dpr;
+      const screenFactor = cssWidth >= 1920 ? 1.3 : cssWidth >= 1440 ? 1.2 : 1.0;
 
       for (let i = 0; i < len; i++) {
         const pt = particles[i];
 
         // Direct scroll progression with light stagger
         const localP = Math.min(1, Math.max(0, (p - pt.delay) / (1 - pt.delay)));
-        // Smooth ease: travels inward as you scroll
+        // Smooth ease: travels inward from default position into center photo
         const ease = localP < 0.5 ? 2 * localP * localP : -1 + (4 - 2 * localP) * localP;
 
         // 3D Perspective trajectory:
-        // Starts closer in foreground (higher z-index perspective), dives down into the center photo
+        // Arcs smoothly from right, left, and center/bottom into the center photo
         const curveOffset = Math.sin(ease * Math.PI) * pt.curve;
         const riseOffset = Math.sin(ease * Math.PI) * pt.rise;
 
@@ -305,27 +312,27 @@ const ImageParticleCanvas = forwardRef<ImageParticleCanvasHandle, ImageParticleC
         const curY = (pt.outerY + (pt.targetY - pt.outerY) * ease) * h - riseOffset;
 
         // Skip if outside viewport
-        if (curX < -15 || curX > w + 15 || curY < -15 || curY > h + 15) continue;
+        if (curX < -20 || curX > w + 20 || curY < -20 || curY > h + 20) continue;
 
         // Smooth entry fade for particles entering from left or right screen edges
         let edgeEntryFade = 1;
-        if (curX < w * 0.10) {
-          edgeEntryFade = Math.min(edgeEntryFade, Math.max(0, (curX + 15) / (w * 0.08)));
-        } else if (curX > w * 0.90) {
-          edgeEntryFade = Math.min(edgeEntryFade, Math.max(0, (w - curX + 15) / (w * 0.08)));
+        if (curX < w * 0.12) {
+          edgeEntryFade = Math.min(edgeEntryFade, Math.max(0, (curX + 20) / (w * 0.10)));
+        } else if (curX > w * 0.88) {
+          edgeEntryFade = Math.min(edgeEntryFade, Math.max(0, (w - curX + 20) / (w * 0.10)));
         }
 
-        // Soft edge feathering at top ONLY (bottom remains 100% solid down to the very edge!)
-        const topFeather = Math.min(1, Math.max(0, curY / topFeatherPx));
+        // Soft edge feathering at top ONLY (clean upper edge transition)
+        const topFeather = Math.min(1, Math.max(0, (curY + 15) / (50 * dpr)));
 
         const particleAlpha = pt.alpha * globalAlphaMultiplier * edgeEntryFade * topFeather;
         if (particleAlpha <= 0.02) continue;
 
         ctx.fillStyle = `${pt.color}${particleAlpha.toFixed(2)})`;
 
-        // 3D Perspective Scale: fine, tiny delicate dust specks as before
+        // 3D Perspective Scale: crisp and clearly visible on 2xl screens (accounting for DPR)
         const perspectiveScale = 1.0 + (1 - ease) * pt.depthScale * 0.35;
-        const drawSize = Math.max(1, Math.round(pt.size * perspectiveScale));
+        const drawSize = Math.max(Math.round(1.5 * dpr), Math.round(pt.size * dpr * screenFactor * perspectiveScale));
 
         ctx.fillRect(Math.round(curX), Math.round(curY), drawSize, drawSize);
       }
