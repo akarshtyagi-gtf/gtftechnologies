@@ -561,12 +561,12 @@ export default function ServiceListSection() {
       {/* =================================================================== */}
       <div
         ref={imageFrameRef}
-        className="relative w-full left-0 right-0 h-[46vh] sm:h-[48vh] md:h-[50vh] lg:h-[52vh] xl:h-[54vh] overflow-hidden flex flex-col justify-end shrink-0"
+        className="relative w-full left-0 right-0 h-[46vh] sm:h-[48vh] md:h-[50vh] lg:h-[52vh] xl:h-[54vh] flex flex-col justify-end shrink-0"
       >
         {/* Base Image Wrapper: exact original placement, handles only opacity & step transition */}
         <div
           ref={imageWrapperRef}
-          className="absolute inset-0 w-full h-full z-10 pointer-events-none will-change-opacity [mask-image:linear-gradient(to_bottom,transparent_0%,black_14%,black_86%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,black_14%,black_86%,transparent_100%)]"
+          className="absolute inset-0 w-full h-full z-10 pointer-events-none will-change-opacity overflow-hidden [mask-image:linear-gradient(to_bottom,transparent_0%,black_14%,black_86%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,black_14%,black_86%,transparent_100%)]"
           style={{ opacity: 0 }}
         >
           {/* Inner container: moves strictly on timeline scrollbar without disturbing base placement */}
@@ -589,8 +589,8 @@ export default function ServiceListSection() {
         {/* Minimal Top Edge Dissolve: dissolves softly into #F8F6F0 without lines */}
         <div className="absolute top-0 left-0 w-full h-12 sm:h-16 md:h-20 z-10 pointer-events-none bg-gradient-to-b from-[#F8F6F0] via-[#F8F6F0]/80 to-transparent" />
 
-        {/* Bottom Edge Fade: ONLY at the very bottom edge, beneath the timeline! */}
-        <div className="absolute bottom-0 left-0 w-full h-12 sm:h-16 md:h-20 z-10 pointer-events-none bg-gradient-to-t from-[#F8F6F0] via-[#F8F6F0]/80 to-transparent" />
+        {/* Bottom Edge Fade: extends slightly past bottom to dissolve seamlessly across the line gap */}
+        <div className="absolute -bottom-2 sm:-bottom-3 left-0 w-full h-14 sm:h-18 md:h-22 z-10 pointer-events-none bg-gradient-to-t from-[#F8F6F0] via-[#F8F6F0]/80 to-transparent" />
 
         {/* =================================================================== */}
         {/* 2. TIMELINE: SITS ON THE CLEAR PHOTO AT THE BASE OF CHESS PIECES    */}

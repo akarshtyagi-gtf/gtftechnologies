@@ -52,38 +52,44 @@ const CONTACT_ITEMS: SubMenuItem[] = [
   { label: "Say Hello!", href: "/contact/say_hello" },
 ];
 
-const GTF_LOCATIONS = [
-  {
-    city: "Delhi NCR",
-    href: "https://www.gtftechnologies.com/delhi-ncr",
-    phone: "+91-9953-91-7978",
-    tel: "+919953917978",
-  },
-  {
-    city: "Mumbai",
-    href: "https://www.gtftechnologies.com/mumbai",
-    phone: "+91-9582-53-2488",
-    tel: "+919582532488",
-  },
-  {
-    city: "Pune",
-    href: "https://www.gtftechnologies.com/pune",
-    phone: "+91-9953-60-5303",
-    tel: "+919953605303",
-  },
-  {
-    city: "Bangalore",
-    href: "https://www.gtftechnologies.com/bangalore",
-    phone: "+91-7838-80-0248",
-    tel: "+917838800248",
-  },
-  {
-    city: "Hyderabad",
-    href: "https://www.gtftechnologies.com/hyderabad",
-    phone: "+91-7838-50-0356",
-    tel: "+917838500356",
-  },
-];
+const renderSocialIcon = (name: string) => {
+  switch (name) {
+    case "LinkedIn":
+      return (
+        <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z" />
+        </svg>
+      );
+    case "Twitter":
+      return (
+        <svg className="w-3 h-3" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+        </svg>
+      );
+    case "Facebook":
+      return (
+        <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" />
+        </svg>
+      );
+    case "Instagram":
+      return (
+        <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+          <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+        </svg>
+      );
+    case "Pinterest":
+      return (
+        <svg className="w-3.5 h-3.5" viewBox="0 0 384 512" fill="currentColor">
+          <path d="M204 6.5C101.4 6.5 0 74.9 0 185.6 0 256 39.6 296 63.6 296c9.9 0 15.6-27.6 15.6-35.4 0-9.3-23.7-29.1-23.7-67.8 0-80.4 61.2-137.4 140.4-137.4 68.1 0 118.5 38.7 118.5 109.8 0 53.1-21.3 152.7-90.3 152.7-24.9 0-46.2-18-46.2-43.8 0-38.1 24.9-75 24.9-114.3 0-67.2-96.6-55.2-96.6 26.4 0 17.1 2.4 35.7 10.8 51.6l-37.5 158.4C64.2 458.7 77.1 512 78.6 512c1.2 0 3-.3 4.2-1.8 4.2-5.7 55.8-76.8 70.8-135 4.8-18.6 24.6-94.2 24.6-94.2 8.1 15.6 31.8 29.1 57 29.1 84.3 0 144.9-80.1 144.9-183.9C379.8 54.3 306.9 6.5 204 6.5z" />
+        </svg>
+      );
+    default:
+      return null;
+  }
+};
 
 const MENU_SOCIALS = [
   { label: "in", href: "https://in.linkedin.com/company/gtftechnologies", name: "LinkedIn" },
@@ -205,8 +211,8 @@ export default function Header() {
       if (bgVideo) {
         gsap.fromTo(
           bgVideo,
-          { scale: 1.08, y: -28 },
-          { scale: 1, y: 0, duration: 1.3, ease: "power3.out" }
+          { opacity: 0, scale: 1.08, y: -28 },
+          { opacity: 0.85, scale: 1, y: 0, duration: 1.2, ease: "power3.out" }
         );
       }
 
@@ -251,20 +257,21 @@ export default function Header() {
       if (circle) {
         gsap.to(circle, {
           opacity: 0,
-          y: -28,
+          y: -24,
           scale: 0.94,
-          duration: 0.7,
+          duration: 0.65,
           ease: "power2.inOut",
         });
       }
 
-      // Background video parallax pull
+      // Background video parallax pull & smooth fade to eliminate any blink
       if (bgVideo) {
         gsap.to(bgVideo, {
-          scale: 1.06,
-          y: -20,
-          duration: 0.85,
-          ease: "power3.inOut",
+          opacity: 0,
+          scale: 1.05,
+          y: -18,
+          duration: 0.65,
+          ease: "power2.inOut",
         });
       }
 
@@ -272,11 +279,22 @@ export default function Header() {
       gsap.to(overlay, {
         opacity: 0,
         clipPath: "inset(0% 0% 100% 0%)",
-        duration: 0.9,
-        delay: 0.14,
+        duration: 0.85,
+        delay: 0.08,
         ease: "power4.inOut",
         onComplete: () => {
           gsap.set(overlay, { pointerEvents: "none", visibility: "hidden" });
+          setIsSubmenuViewOpen(false);
+          isFirstSubmenuToggle.current = true;
+          if (bgVideo) {
+            gsap.set(bgVideo, { opacity: 0 });
+          }
+          if (centerNavRef.current) {
+            gsap.set(centerNavRef.current, { opacity: 1, y: 0, filter: "blur(0px)", visibility: "visible", pointerEvents: "auto" });
+          }
+          if (submenuColumnsRef.current) {
+            gsap.set(submenuColumnsRef.current, { opacity: 0, y: 36, filter: "blur(8px)", visibility: "hidden", pointerEvents: "none" });
+          }
         },
       });
     }
@@ -325,14 +343,7 @@ export default function Header() {
   // GSAP animation when toggling between Center Navigation and Full Column Submenu
   useEffect(() => {
     if (!menuOpen) {
-      setIsSubmenuViewOpen(false);
       isFirstSubmenuToggle.current = true;
-      if (centerNavRef.current) {
-        gsap.set(centerNavRef.current, { opacity: 1, y: 0, filter: "blur(0px)", visibility: "visible", pointerEvents: "auto" });
-      }
-      if (submenuColumnsRef.current) {
-        gsap.set(submenuColumnsRef.current, { opacity: 0, y: 36, filter: "blur(8px)", visibility: "hidden", pointerEvents: "none" });
-      }
       return;
     }
 
@@ -420,7 +431,6 @@ export default function Header() {
 
   const closeMenu = () => {
     setMenuOpen(false);
-    setIsSubmenuViewOpen(false);
   };
 
   return (
@@ -432,16 +442,12 @@ export default function Header() {
         {/* Left: GTF Technologies Logo */}
         <div className="header-reveal-item relative z-10">
           <Link href="/" onClick={closeMenu} className="relative block h-11 sm:h-16">
-           <Image
-    src="/images/logonew.svg"
-    alt="GTF Technologies Logo"
-    width={200}
-    height={76}
-    priority
-    className={`h-full w-auto transition-opacity duration-300 ${
-      isWhiteLogo ? "opacity-0 pointer-events-none" : "opacity-100"
-    }`}
-  />
+            <GtfLogo
+              variant="dark"
+              className={`h-full w-auto transition-opacity duration-300 ${
+                isWhiteLogo ? "opacity-0 pointer-events-none" : "opacity-100"
+              }`}
+            />
             <GtfWhiteLogo
               className={`absolute top-0 left-0 h-full w-auto transition-opacity duration-300 ${
                 isWhiteLogo ? "opacity-100" : "opacity-0 pointer-events-none"
@@ -508,25 +514,26 @@ export default function Header() {
         data-lenis-prevent
         aria-hidden={!menuOpen}
         style={{ visibility: "hidden", opacity: 0 }}
-        className="fixed inset-0 z-[60] bg-[#F8F6F0] overflow-y-auto lg:overflow-hidden [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden select-none"
+        className="fixed inset-0 z-[60] bg-[#F8F6F0] isolate overflow-y-auto lg:overflow-hidden [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden select-none"
       >
         {/* Background Texture Video */}
         <video
           ref={bgVideoRef}
           src="/images/texture/bg-texture-videof.mp4"
-          poster="/images/texture/bg-texture.png"
+          poster="/images/texture/bg-texture2.png"
           autoPlay
           loop
           muted
           playsInline
           aria-hidden="true"
-          className="fixed inset-0 w-full h-full object-cover pointer-events-none opacity-85 mix-blend-multiply will-change-transform"
+          style={{ opacity: 0 }}
+          className="absolute inset-0 w-full h-full object-cover pointer-events-none mix-blend-multiply transform-gpu [backface-visibility:hidden] will-change-[transform,opacity]"
         />
 
         {/* Subtle Ambient Concentric Circle */}
         <div
           ref={circleRef}
-          className="fixed inset-0 pointer-events-none flex items-center justify-center opacity-20 will-change-transform"
+          className="absolute inset-0 pointer-events-none flex items-center justify-center opacity-0 will-change-[transform,opacity]"
         >
           <Image
             src="/images/texture/circle.png"
@@ -545,14 +552,7 @@ export default function Header() {
           {/* Top Bar: Brand Logo & Close Button */}
           <div className="menu-stagger-item relative w-full max-w-[1680px] mx-auto flex items-center justify-between sm:justify-center shrink-0">
             <Link href="/" onClick={closeMenu} className="relative block">
-              <Image
-                src="/images/logonew.svg"
-                alt="GTF Logo"
-                width={200}
-                height={76}
-                className="h-11 sm:h-14 lg:h-[58px] xl:h-[68px] 2xl:h-[76px] w-auto"
-                priority
-              />
+              <GtfLogo className="h-11 sm:h-14 lg:h-[58px] xl:h-[68px] 2xl:h-[76px] w-auto" />
             </Link>
             <button
               onClick={closeMenu}
@@ -661,7 +661,7 @@ export default function Header() {
               </div>
             </div>
 
-            {/* VIEW B: Expanded Full Submenu Directory in 5-Column Alignment (Address in CENTER) */}
+            {/* VIEW B: Expanded Full Submenu Directory in 5-Column Alignment */}
             <div
               ref={submenuColumnsRef}
               style={{ visibility: "hidden", opacity: 0 }}
@@ -723,63 +723,12 @@ export default function Header() {
                   </div>
                 </div>
 
-                {/* Column 3 (CENTER): Address & Locations (Delhi NCR, Mumbai, Pune, Bangalore, Hyderabad) */}
-                <div className="submenu-col-item flex flex-col justify-between px-0 lg:px-5 xl:px-6 border-b sm:border-b-0 lg:border-r border-black/[0.08] pb-5 lg:pb-0 bg-black/[0.015] rounded-xl lg:rounded-none py-3 lg:py-0">
-                  <div>
-                    <div className="mb-3.5 pb-2.5 border-b border-black/10">
-                      <span className="font-montserrat text-[10px] uppercase tracking-[0.2em] text-[#8C827A] font-semibold block">
-                        03 / Presence
-                      </span>
-                      <h3 className="font-voyage text-[24px] sm:text-[26px] xl:text-[28px] 2xl:text-[32px] text-[#121212] tracking-tight leading-tight mt-0.5">
-                        Offices
-                      </h3>
-                    </div>
-                    <ul className="space-y-3">
-                      {GTF_LOCATIONS.map((loc) => (
-                        <li key={loc.city} className="group/loc">
-                          <a
-                            href={loc.href}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            onClick={closeMenu}
-                            className="inline-flex items-center gap-1.5 font-segoe font-medium text-[14px] xl:text-[15px] text-[#121212] hover:text-[#57534E] transition-colors"
-                          >
-                            <span>{loc.city}</span>
-                            <svg
-                              width="9"
-                              height="9"
-                              viewBox="0 0 10 10"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="opacity-40 group-hover/loc:opacity-100 group-hover/loc:translate-x-0.5 group-hover/loc:-translate-y-0.5 transition-all"
-                            >
-                              <path
-                                d="M2.5 7.5L7.5 2.5M7.5 2.5H3.5M7.5 2.5V6.5"
-                                stroke="currentColor"
-                                strokeWidth="1.2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                            </svg>
-                          </a>
-                          <a
-                            href={`tel:${loc.tel}`}
-                            className="block font-montserrat text-[11.5px] xl:text-[12px] text-[#6B665E] hover:text-[#121212] tracking-[0.03em] transition-colors mt-0.5"
-                          >
-                            {loc.phone}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-
-                {/* Column 4: Work */}
+                {/* Column 3: Work */}
                 <div className="submenu-col-item flex flex-col justify-between pr-0 lg:pr-5 xl:pr-6 border-b sm:border-b-0 lg:border-r border-black/[0.08] pb-5 lg:pb-0">
                   <div>
                     <div className="mb-3.5 pb-2.5 border-b border-black/10">
                       <span className="font-montserrat text-[10px] uppercase tracking-[0.2em] text-[#8C827A] font-semibold block">
-                        04 / Showcase
+                        03 / Showcase
                       </span>
                       <h3 className="font-voyage text-[24px] sm:text-[26px] xl:text-[28px] 2xl:text-[32px] text-[#121212] tracking-tight leading-tight mt-0.5">
                         Work
@@ -801,58 +750,57 @@ export default function Header() {
                   </div>
                 </div>
 
-                {/* Column 5: Human Resource & Contact (Same column, separate headings) */}
-                <div className="submenu-col-item flex flex-col justify-between">
-                  <div className="space-y-5 sm:space-y-6">
-                    {/* Heading 1: Human Resource */}
-                    <div>
-                      <div className="mb-2.5 pb-2 border-b border-black/10">
-                        <span className="font-montserrat text-[10px] uppercase tracking-[0.2em] text-[#8C827A] font-semibold block">
-                          05 / People
-                        </span>
-                        <h3 className="font-voyage text-[22px] sm:text-[24px] xl:text-[26px] 2xl:text-[28px] text-[#121212] tracking-tight leading-tight mt-0.5">
-                          Human Resource
-                        </h3>
-                      </div>
-                      <ul className="space-y-1.5 sm:space-y-2">
-                        {HR_ITEMS.map((item) => (
-                          <li key={item.label}>
-                            <Link
-                              href={item.href}
-                              onClick={closeMenu}
-                              className="font-segoe text-[13.5px] xl:text-[14.5px] 2xl:text-[15px] text-[#2E2B27] hover:text-[#121212] hover:translate-x-1 transition-all duration-200 block py-0.5"
-                            >
-                              {item.label}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
+                {/* Column 4: Human Resource */}
+                <div className="submenu-col-item flex flex-col justify-between pr-0 lg:pr-5 xl:pr-6 border-b sm:border-b-0 lg:border-r border-black/[0.08] pb-5 lg:pb-0">
+                  <div>
+                    <div className="mb-3.5 pb-2.5 border-b border-black/10">
+                      <span className="font-montserrat text-[10px] uppercase tracking-[0.2em] text-[#8C827A] font-semibold block">
+                        04 / People
+                      </span>
+                      <h3 className="font-voyage text-[24px] sm:text-[26px] xl:text-[28px] 2xl:text-[32px] text-[#121212] tracking-tight leading-tight mt-0.5">
+                        Human Resource
+                      </h3>
                     </div>
+                    <ul className="space-y-2 sm:space-y-2.5">
+                      {HR_ITEMS.map((item) => (
+                        <li key={item.label}>
+                          <Link
+                            href={item.href}
+                            onClick={closeMenu}
+                            className="font-segoe text-[13.5px] xl:text-[14.5px] 2xl:text-[15px] text-[#2E2B27] hover:text-[#121212] hover:translate-x-1 transition-all duration-200 block py-0.5"
+                          >
+                            {item.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
 
-                    {/* Heading 2: Contact */}
-                    <div>
-                      <div className="mb-2.5 pb-2 border-b border-black/10">
-                        <span className="font-montserrat text-[10px] uppercase tracking-[0.2em] text-[#8C827A] font-semibold block">
-                          06 / Connect
-                        </span>
-                        <h3 className="font-voyage text-[22px] sm:text-[24px] xl:text-[26px] 2xl:text-[28px] text-[#121212] tracking-tight leading-tight mt-0.5">
-                          Contact
-                        </h3>
-                      </div>
-                      <ul className="space-y-1.5 sm:space-y-2">
-                        {CONTACT_ITEMS.map((item) => (
-                          <li key={item.label}>
-                            <Link
-                              href={item.href}
-                              onClick={closeMenu}
-                              className="font-segoe text-[13.5px] xl:text-[14.5px] 2xl:text-[15px] text-[#2E2B27] hover:text-[#121212] hover:translate-x-1 transition-all duration-200 block py-0.5"
-                            >
-                              {item.label}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
+                {/* Column 5: Contact */}
+                <div className="submenu-col-item flex flex-col justify-between">
+                  <div>
+                    <div className="mb-3.5 pb-2.5 border-b border-black/10">
+                      <span className="font-montserrat text-[10px] uppercase tracking-[0.2em] text-[#8C827A] font-semibold block">
+                        05 / Connect
+                      </span>
+                      <h3 className="font-voyage text-[24px] sm:text-[26px] xl:text-[28px] 2xl:text-[32px] text-[#121212] tracking-tight leading-tight mt-0.5">
+                        Contact
+                      </h3>
                     </div>
+                    <ul className="space-y-2 sm:space-y-2.5">
+                      {CONTACT_ITEMS.map((item) => (
+                        <li key={item.label}>
+                          <Link
+                            href={item.href}
+                            onClick={closeMenu}
+                            className="font-segoe text-[13.5px] xl:text-[14.5px] 2xl:text-[15px] text-[#2E2B27] hover:text-[#121212] hover:translate-x-1 transition-all duration-200 block py-0.5"
+                          >
+                            {item.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 </div>
 
@@ -903,9 +851,11 @@ export default function Header() {
 
             {/* Left: Email */}
             <div className="flex items-center justify-center md:justify-self-start gap-2.5">
-              <span className="font-montserrat text-[9.5px] font-semibold tracking-[0.16em] uppercase text-[#6B665E]">
-                Email
-              </span>
+              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border border-black/15 bg-black/[0.02] flex items-center justify-center text-[#121212] shrink-0">
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </div>
               <a
                 href="mailto:hello@gtftechnologies.com"
                 className="font-segoe text-[12.5px] xl:text-[13px] text-[#121212] hover:opacity-65 transition-opacity"
@@ -914,18 +864,19 @@ export default function Header() {
               </a>
             </div>
 
-            {/* Center: Social Links (Aligned with Center Main Menu) */}
-            <div className="flex items-center justify-center md:justify-self-center gap-2">
+            {/* Center: Social Links (Icons in circular buttons) */}
+            <div className="flex items-center justify-center md:justify-self-center gap-2 sm:gap-2.5">
               {MENU_SOCIALS.map((social) => (
                 <a
-                  key={social.label}
+                  key={social.name}
                   href={social.href}
                   target="_blank"
                   rel="noreferrer"
                   aria-label={social.name}
-                  className="font-montserrat text-[10px] font-medium uppercase tracking-[0.08em] text-[#121212] border border-black/15 rounded-full px-3 py-1 hover:bg-[#121212] hover:text-[#F8F6F0] transition-colors duration-200"
+                  title={social.name}
+                  className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border border-black/15 bg-black/[0.02] flex items-center justify-center text-[#121212] hover:bg-[#121212] hover:text-[#F8F6F0] hover:border-[#121212] hover:scale-105 active:scale-95 transition-all duration-200"
                 >
-                  {social.label}
+                  {renderSocialIcon(social.name)}
                 </a>
               ))}
             </div>
