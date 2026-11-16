@@ -186,10 +186,6 @@ export default function Header() {
     const targets = [overlay, content, bgVideo, circle, ...Array.from(animItems)].filter(Boolean);
 
     if (menuOpen) {
-      document.documentElement.style.overflow = "hidden";
-      document.documentElement.style.overflowY = "hidden";
-      document.body.style.overflow = "hidden";
-      document.body.style.overflowY = "hidden";
       gsap.killTweensOf(targets);
       gsap.set(overlay, { pointerEvents: "auto", visibility: "visible" });
 
@@ -239,10 +235,6 @@ export default function Header() {
         }
       );
     } else {
-      document.documentElement.style.overflow = "";
-      document.documentElement.style.overflowY = "";
-      document.body.style.overflow = "";
-      document.body.style.overflowY = "";
       gsap.killTweensOf(targets);
 
       // Reverse parallax: Foreground items lift & dissolve first
@@ -290,10 +282,7 @@ export default function Header() {
     }
 
     return () => {
-      document.documentElement.style.overflow = "";
-      document.documentElement.style.overflowY = "";
-      document.body.style.overflow = "";
-      document.body.style.overflowY = "";
+      gsap.killTweensOf(targets);
     };
   }, [menuOpen]);
 
@@ -516,6 +505,7 @@ export default function Header() {
       {/* ===================================================================== */}
       <div
         ref={overlayRef}
+        data-lenis-prevent
         aria-hidden={!menuOpen}
         style={{ visibility: "hidden", opacity: 0 }}
         className="fixed inset-0 z-[60] bg-[#F8F6F0] overflow-y-auto lg:overflow-hidden [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden select-none"
